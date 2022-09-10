@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Floss Tracker</title>
+    </head>
+    <body>
+        {% for i in user_threads %}
+        <div class="thread-card">
+            <h3>{{ i.thread_data.name }}</h3>
+            <div style="background-color:#{{ i.thread_data.hex_value }}; color:#{{ i.thread_data.hex_value }};">
+                {{ i.thread_data.hex_value }}
+            </div>
+            <p>{{ i.skeins_owned }} Skeins owned</p>            
+        </div>
+        {% endfor %}
+    </body>
+</html>
