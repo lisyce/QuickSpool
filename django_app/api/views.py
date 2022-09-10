@@ -4,7 +4,7 @@ from django.contrib.auth import models as auth_models
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'tracker/index.html')
+    return render(request, 'api/index.html')
 
 def collection(request):
     user_threads = UserThread.objects.filter(owner=auth_models.User.objects.get(username='admin'))
