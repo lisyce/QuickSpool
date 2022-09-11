@@ -1,11 +1,30 @@
-from .models import *
-from django.contrib.auth import models as auth_models
-
 from django.shortcuts import render
+from django.http import JsonResponse
 
-def home(request):
-    return render(request, 'api/index.html')
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-def collection(request):
-    user_threads = UserThread.objects.filter(owner=auth_models.User.objects.get(username='admin'))
-    return render(request, 'tracker/collection.html', {'user_threads':user_threads})
+from .models import *
+from .serializers import *
+
+@api_view(['GET'])
+def api_overview(request):
+    api_urls = {
+        'All Thread Colors' : '/thread-colors',
+        'User Collection' : '/collection/<str:pk>', # primary key of the User
+        'User Thread Detail' : '/user-thread-detail/<str:pk>', # primary key of the UserThread
+        'Thread Color Detail' : '/thread-color-detail/<str:pk>', # primary key of the ThreadColor
+        'User Detail' : '/user/<str:pk>', # primary key of the User
+
+        'Create User Thread' : '/user-thread-create',
+        'Update User Thread' : '/user-thread-update/<str:pk>',
+        'Delete User Thread' : '/user-thread-delete/<str:pk>',
+    }
+
+    return Response(api_urls)
+
+@api_view(['GET'])
+def thread_colors(request):
+    threadColors = ThreadColor.objects.all()
+    serializer = ThreadColorSerializer(threadColors, many=True)
+    return Response(serializer.data)

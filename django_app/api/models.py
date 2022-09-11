@@ -1,10 +1,12 @@
-from xml.dom import ValidationErr
 from django.db import models
 from django.contrib.auth import models as auth_models
 
 # Create your models here.
 
 class ThreadColor(models.Model):
+    class Meta:
+        verbose_name_plural = 'Thread Colors'
+
     brand = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     brand_number = models.CharField(max_length=10)
@@ -12,9 +14,11 @@ class ThreadColor(models.Model):
     hex_value = models.CharField(max_length=6)
     
     def __str__(self):
-        return "{0} {1}: {2}".format(self.brand, self.brand_number, self.name)
+        return "{} {}: {}".format(self.brand, self.brand_number, self.name)
 
 class UserThread(models.Model):
+    class Meta:
+        verbose_name_plural = 'User Threads'
 
     thread_data = models.ForeignKey(ThreadColor, on_delete=models.PROTECT)
     owner = models.ForeignKey(auth_models.User, on_delete=models.CASCADE)
