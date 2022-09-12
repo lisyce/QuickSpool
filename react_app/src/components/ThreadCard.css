@@ -1,0 +1,8 @@
+.color-swatch {
+    width: 10%;
+    max-width: 100px;
+    height: 1.5em;
+
+    margin-left: 20px;
+    margin-right: 20px;
+}
