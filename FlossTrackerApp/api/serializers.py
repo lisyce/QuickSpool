@@ -10,9 +10,13 @@ class ThreadColorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class UserThreadSerializer(serializers.ModelSerializer):
+    # avoids having a depth of 2
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
     class Meta:
         model = UserThread
         fields = '__all__'
+        depth = 2
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

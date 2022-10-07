@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './ThreadCard.css'
 
+// props will be a thread color model json data and a skiens owned
 function ThreadCard(props) {
-
     const swatchHex = props.thread_data.hex_value;
-
     const swatchStyle = {
         backgroundColor: swatchHex,
         color: swatchHex
@@ -19,7 +18,7 @@ function ThreadCard(props) {
                 <div className='color-swatch my-auto' style={swatchStyle}>#</div>
             </div>
         </div>
-     );
+    );
 }
 
 export default ThreadCard;
