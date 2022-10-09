@@ -1,9 +1,13 @@
+import bootstrap from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
 import Navbar from './components/Navbar';
 import ThreadCardList from './components/ThreadCardList';
+import AddThreadsForm from './components/AddThreadsForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

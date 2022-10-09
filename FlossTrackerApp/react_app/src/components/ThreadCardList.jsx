@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 
 import ThreadCard from './ThreadCard';
-
 // props are going to be the name of the user
 function ThreadCardList(props) {
 
