@@ -2,7 +2,6 @@ import React from 'react';
 import './ThreadCard.css'
 
 // props will be a thread color model json data 
-// TODO fix styling not rendering
 function ThreadCard(props) {
   const swatchHex = props.thread_data.hex_value;
   const swatchStyle = {
