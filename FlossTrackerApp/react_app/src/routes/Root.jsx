@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import ThreadCardList from '../components/ThreadCardList';
 
-function Root () {
+function Collection () {
     return ( 
       <>
         <Navbar />
@@ -11,5 +11,5 @@ function Root () {
     );
 }
 
-export default Root;
+export default Collection;
 

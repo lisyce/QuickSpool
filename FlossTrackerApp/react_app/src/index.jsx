@@ -6,12 +6,12 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider, Route} from 'react-router-dom';
 
-import Root from './routes/Root';
+import Collection from './routes/Collection';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />
+    element: <Collection />
   },
 ])
 

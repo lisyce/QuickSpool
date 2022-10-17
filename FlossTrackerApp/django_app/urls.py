@@ -21,7 +21,7 @@ urlpatterns = [
     # TODO make a robots.txt url and do the robots.txt
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('', TemplateView.as_view(template_name='index.html')),
 
-    path('manifest.json', TemplateView.as_view(template_name='manifest.json'))
+    path('manifest.json', TemplateView.as_view(template_name='manifest.json')),
+    path('', TemplateView.as_view(template_name='index.html')),
 ]
