@@ -33,7 +33,7 @@ function ThreadCardList(props) {
       <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} />
     );
 
-    return <div>{allThreads}</div>;
+    return <main className='container'>{allThreads}</main>;
   }
   return <h1>Loading...</h1>;
 

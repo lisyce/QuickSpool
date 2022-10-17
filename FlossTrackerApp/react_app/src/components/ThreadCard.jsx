@@ -1,5 +1,5 @@
 import React from 'react';
-import './ThreadCard.css'
+import './thread-card.css';
 
 // props will be a thread color model json data 
 function ThreadCard(props) {
@@ -8,14 +8,15 @@ function ThreadCard(props) {
     backgroundColor: '#' + swatchHex,
     color: '#' + swatchHex
   };
+  // todo show the skeins owned as a badge?
 
-  return ( 
-    <div className='card'>
-      <div className='card-body row'>
-        <h5 className='card-title my-auto'>
-          {props.thread_data.brand} {props.thread_data.brand_number}: {props.thread_data.name} ({props.skeins_owned} skeins)
+  return (
+    <div className='card my-2'>
+      <div className='card-body text-center'>
+        <h5 className='card-title'>
+          {props.thread_data.brand} {props.thread_data.brand_number}: {props.thread_data.name} ({props.skeins_owned} skeins) 
+          <span className='badge' style={swatchStyle}> </span>
         </h5>
-        <div className='color-swatch my-auto' style={swatchStyle}>#</div>
       </div>
     </div>
   );
