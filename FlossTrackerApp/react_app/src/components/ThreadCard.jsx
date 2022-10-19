@@ -5,20 +5,17 @@ import './thread-card.css';
 function ThreadCard(props) {
   const swatchHex = props.thread_data.hex_value;
   const swatchStyle = {
-    backgroundColor: '#' + swatchHex,
-    color: '#' + swatchHex
+    backgroundColor: '#' + swatchHex
   };
-  // todo show the skeins owned as a badge?
+
 
   return (
-    <div className='card my-2'>
-      <div className='card-body text-center'>
-        <h5 className='card-title'>
-          {props.thread_data.brand} {props.thread_data.brand_number}: {props.thread_data.name} ({props.skeins_owned} skeins) 
-          <span className='badge' style={swatchStyle}> </span>
-        </h5>
-      </div>
-    </div>
+    <li className='list-group-item d-flex justify-content-between'>
+      <h5 className='my-auto'>{props.thread_data.brand} {props.thread_data.brand_number}: {props.thread_data.name}</h5>
+      <span className='position-relative btn swatch my-auto' style={swatchStyle}>&nbsp;
+        <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.skeins_owned}</span>
+      </span>
+    </li>
   );
 }
 

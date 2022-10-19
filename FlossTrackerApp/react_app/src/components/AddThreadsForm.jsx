@@ -4,10 +4,10 @@ function AddThreadsForm() {
 
   return (
     <>
-    <button type='button' className='btn btn-outline-dark' dataToggle='modal' dataTarget='#addModal'>Add Threads to Collection</button>
+    <button type='button' className='btn' dataToggle='modal' dataTarget='#addModal'>Add Threads to Collection</button>
 
     <div className='modal fade' id='addModal' tabIndex='-1'>
-      <div className='modal-dialog'>
+      <div className='modal-dialog modal-dialog-centered'>
         <div className='modal-content'>
 
           <div className='modal-header'>

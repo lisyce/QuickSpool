@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 import ThreadCard from './ThreadCard';
 // props are going to be the name of the user
+// FIXME render these threadcards as a UL, not just one after another
 function ThreadCardList(props) {
 
   // state
@@ -33,7 +34,8 @@ function ThreadCardList(props) {
       <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} />
     );
 
-    return <main className='container'>{allThreads}</main>;
+    let classes = 'container ' + props.width_class;
+    return <div className={classes}><ul className='list-group list-group-flush'>{allThreads}</ul></div>;
   }
   return <h1>Loading...</h1>;
 
