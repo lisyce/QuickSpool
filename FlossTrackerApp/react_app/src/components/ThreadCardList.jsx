@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 
 import ThreadCard from './ThreadCard';
+
 // props are going to be the name of the user
-// FIXME render these threadcards as a UL, not just one after another
 function ThreadCardList(props) {
 
   // state
@@ -13,7 +13,7 @@ function ThreadCardList(props) {
 
   // hook (occurs after render)
   useEffect(() => {
-    $.getJSON('api/user/' + props.username + '/collection')
+    $.getJSON('/api/user/' + props.username + '/collection')
     .done((json) => {
       // set the loaded and threadDatas state
       setThreadDatas(json);
@@ -31,13 +31,13 @@ function ThreadCardList(props) {
   // TODO if the user has no threads, display something to prompt them to add threads to their collection
   if (isLoaded) {
     const allThreads = threadDatas.map((thread) =>
-      <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} />
+      <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} pk={thread.id} owner={thread.owner} />
     );
 
     let classes = 'container ' + props.width_class;
-    return <div className={classes}><ul className='list-group list-group-flush'>{allThreads}</ul></div>;
+    return <div className={classes}><div className='list-group list-group-flush'>{allThreads}</div></div>;
   }
-  return <h1>Loading...</h1>;
+  return <h1>Loading...</h1>; // TODO make this more attractive
 
 }
 

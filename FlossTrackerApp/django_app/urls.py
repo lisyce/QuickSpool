@@ -23,5 +23,5 @@ urlpatterns = [
     path('api/', include('api.urls')),
 
     path('manifest.json', TemplateView.as_view(template_name='manifest.json')),
-    path('', TemplateView.as_view(template_name='index.html')),
+    path('collection/', TemplateView.as_view(template_name='index.html')),
 ]

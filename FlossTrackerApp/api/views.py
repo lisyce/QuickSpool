@@ -1,5 +1,3 @@
-from concurrent.futures import thread
-from http.client import HTTPResponse
 from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
@@ -61,7 +59,7 @@ def user_thread_create(request):
     if serializer.is_valid():
         serializer.save()
     else:
-        return HTTPResponse(status_code=400)
+        return HttpResponse(status=400)
     
     return Response(serializer.data)
 
@@ -73,7 +71,7 @@ def user_thread_update(request, pk):
     if serializer.is_valid():
         serializer.save()
     else:
-        return HTTPResponse(status_code=400)
+        return HttpResponse(status=400)
     
     return Response(serializer.data)
 
@@ -82,4 +80,4 @@ def user_thread_delete(request, pk):
     user_thread = UserThread.objects.get(id=pk)
     user_thread.delete()
 
-    return HTTPResponse(status_code=200)
+    return HttpResponse(status=200)
