@@ -27,6 +27,16 @@ function ThreadCard(props) {
     return null;
   }
 
+  function makeValidSkeinsOwned(text) {
+    if (!text.includes('.')) text += '.';
+    const halves = text.split('.');
+    if (halves[1].length > 2) {
+      halves[1] = halves[1].substring(0, 2);
+    }
+    const joined = halves[0] + '.' + halves[1];
+    return joined;
+  }
+
   return (
     <>
     <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
@@ -51,43 +61,43 @@ function ThreadCard(props) {
                 <div className='col-4'>
                   <div className='modal-swatch' style={swatchStyle}>&nbsp;</div>
 
-                    <form action='/collection'>
+                    <form action='/collection' onSubmit={() => {
+                      const validatedSkeins = makeValidSkeinsOwned($('#floating-input-' + modalID).val());
+
+                      const csrfToken = getCsrfCookie();
+
+                      $.ajax({
+                        url: '/api/user-thread-update/' + props.pk, 
+                        type: 'POST',
+                        headers: {
+                          'Content-type': 'application/json',
+                          'X-CSRFToken': csrfToken
+                        },
+                        data: JSON.stringify({
+                          id: props.pk,
+                          owner: props.owner,
+                          skeins_owned: validatedSkeins,
+                          thread_data: props.thread_data
+                        })
+                      })
+                      .done(() => console.log('success'))
+                      .fail((jqxhr, textStatus, requestError) => {
+                        console.log(textStatus + ', ' + requestError);
+                      });
+                    }}>
                       <div className='input-group my-2'>
                         <div className='form-floating'>
-                          <input type='text' id={'floating-input-' + modalID} className='form-control' placeholder='1.00' value={modalFormSkeins} onChange={(event) => {
-                            const text = event.target.value;
-                            // only allow valid decimal numbers in the input
-                            if (!isNaN(text)) setModalFormSkeins(text);
+                          <input type='text' id={'floating-input-' + modalID} className='form-control' placeholder='1.00' value={modalFormSkeins} pattern='(^\d{0,3}\.{0,1}$)|(^\d{0,3}\.\d*$)' onChange={(event) => {
+                            setModalFormSkeins(event.target.value);
                           }} aria-describedby='skeins-helper'>
                         </input>
                         <label for={'floating-input-' + modalID}>Skeins Owned</label>
                       </div>
-
                       <button type='submit' className='btn btn-outline-secondary' onClick={() => {
-                        const csrfToken = getCsrfCookie();
-
-                        $.ajax({
-                          url: '/api/user-thread-update/' + props.pk, 
-                          type: 'POST',
-                          headers: {
-                            'Content-type': 'application/json',
-                            'X-CSRFToken': csrfToken
-                          },
-                          data: JSON.stringify({
-                            id: props.pk,
-                            owner: props.owner,
-                            skeins_owned: modalFormSkeins,
-                            thread_data: props.thread_data
-                          })
-                        })
-                        .done(() => console.log('success'))
-                        .fail((jqxhr, textStatus, requestError) => {
-                          console.log(textStatus + ', ' + requestError);
-                        });
                         
                       }}>Update</button>
                       </div>
-
+                      <div className='form-text ms-1'>Max 999.99 skeins</div>
                     </form>
 
                 </div>
