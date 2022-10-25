@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import $ from 'jquery';
 
 import './thread-card.css';
@@ -36,6 +36,14 @@ function ThreadCard(props) {
     const joined = halves[0] + '.' + halves[1];
     return joined;
   }
+
+  // reset the text field in the modal when it closes with an event listener
+  useEffect(() => {
+    const modal = document.getElementById('detail-thread-view-' + modalID);
+    modal.addEventListener('hidden.bs.modal', event => {
+      setModalFormSkeins(props.skeins_owned);
+    });
+  }, []);
 
   return (
     <>
@@ -93,9 +101,7 @@ function ThreadCard(props) {
                         </input>
                         <label for={'floating-input-' + modalID}>Skeins Owned</label>
                       </div>
-                      <button type='submit' className='btn btn-outline-secondary' onClick={() => {
-                        
-                      }}>Update</button>
+                      <button type='submit' className='btn btn-outline-secondary'>Update</button>
                       </div>
                       <div className='form-text ms-1'>Max 999.99 skeins</div>
                     </form>
