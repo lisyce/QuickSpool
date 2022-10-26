@@ -12,7 +12,7 @@ function ThreadCard(props) {
 
   const [modalFormSkeins, setModalFormSkeins] = useState(props.skeins_owned);
 
-  const displayName = props.thread_data.brand + ' ' + props.thread_data.brand_number + ': ' + props.thread_data.name;
+  const displayName = props.thread_data.brand.name + ' ' + props.thread_data.brand_number + ': ' + props.thread_data.name;
   const modalID = props.thread_data.brand + '-' + props.thread_data.brand_number;
 
   function getCsrfCookie() {

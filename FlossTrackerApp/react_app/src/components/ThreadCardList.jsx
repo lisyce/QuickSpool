@@ -34,8 +34,7 @@ function ThreadCardList(props) {
       <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} pk={thread.id} owner={thread.owner} />
     );
 
-    let classes = 'container ' + props.width_class;
-    return <div className={classes}><div className='list-group list-group-flush'>{allThreads}</div></div>;
+    return <div className='list-group list-group-flush'>{allThreads}</div>;
   }
   return <h1>Loading...</h1>; // TODO make this more attractive
 

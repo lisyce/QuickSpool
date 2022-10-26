@@ -3,11 +3,19 @@ from django.contrib.auth import models as auth_models
 
 # Create your models here.
 
+class Brand(models.Model):
+    class Meta:
+        verbose_name_plural = 'Brands'
+    
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+
 class ThreadColor(models.Model):
     class Meta:
         verbose_name_plural = 'Thread Colors'
 
-    brand = models.CharField(max_length=50)
+    brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     brand_number = models.CharField(max_length=10)
 
