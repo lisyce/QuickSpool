@@ -54,6 +54,8 @@ def user_detail(request, username):
 
 @api_view(['POST'])
 def user_thread_create(request):
+    print(request.data['owner'])
+
     serializer = UserThreadPostSerializer(data=request.data)
 
     if serializer.is_valid():
