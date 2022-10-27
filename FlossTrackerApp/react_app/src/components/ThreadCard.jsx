@@ -74,20 +74,18 @@ function ThreadCard(props) {
                       const csrfToken = getCsrfCookie();
 
                       $.ajax({
-                        url: '/api/user-thread-update/' + props.pk, 
+                        url: '/api/user-thread-create-or-update/',
                         type: 'POST',
                         headers: {
                           'Content-type': 'application/json',
                           'X-CSRFToken': csrfToken
                         },
                         data: JSON.stringify({
-                          id: props.pk,
                           owner: props.owner,
                           skeins_owned: validatedSkeins,
-                          thread_data: props.thread_data
+                          thread_data: props.thread_data.id
                         })
                       })
-                      .done(() => console.log('success'))
                       .fail((jqxhr, textStatus, requestError) => {
                         console.log(textStatus + ', ' + requestError);
                       });

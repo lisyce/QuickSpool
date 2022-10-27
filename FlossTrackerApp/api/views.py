@@ -1,3 +1,4 @@
+from urllib import response
 from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
@@ -53,29 +54,22 @@ def user_detail(request, username):
     return Response(seralizer.data)
 
 @api_view(['POST'])
-def user_thread_create(request):
-    print(request.data['owner'])
+def user_thread_create_or_update(request):
+    response_code = 201
 
-    serializer = UserThreadPostSerializer(data=request.data)
-
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return HttpResponse(status=400)
-    
-    return Response(serializer.data)
-
-@api_view(['POST'])
-def user_thread_update(request, pk):
-    user_thread = UserThread.objects.get(id=pk)
-    serializer = UserThreadPostSerializer(instance=user_thread, data=request.data)
+    try:
+        user_thread = UserThread.objects.get(owner=request.data['owner'], thread_data=request.data['thread_data'])
+        serializer = UserThreadPostSerializer(instance=user_thread, data=request.data)
+        response_code = 200
+    except:
+        serializer = UserThreadPostSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
     else:
         return HttpResponse(status=400)
     
-    return Response(serializer.data)
+    return HttpResponse(status=response_code)
 
 @api_view(['DELETE'])
 def user_thread_delete(request, pk):
