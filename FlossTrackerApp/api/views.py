@@ -31,13 +31,13 @@ def thread_colors(request):
 @api_view(['GET'])
 def collection(request, username):
     user_threads = UserThread.objects.filter(owner__username=username)
-    serializer = UserThreadSerializer(user_threads, many=True)
+    serializer = UserThreadGetSerializer(user_threads, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def user_thread_detail(request, pk):
     user_thread = UserThread.objects.get(id=pk)
-    serializer = UserThreadSerializer(user_thread, many=False)
+    serializer = UserThreadGetSerializer(user_thread, many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -54,7 +54,7 @@ def user_detail(request, username):
 
 @api_view(['POST'])
 def user_thread_create(request):
-    serializer = UserThreadSerializer(data=request.data)
+    serializer = UserThreadPostSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -66,7 +66,7 @@ def user_thread_create(request):
 @api_view(['POST'])
 def user_thread_update(request, pk):
     user_thread = UserThread.objects.get(id=pk)
-    serializer = UserThreadSerializer(instance=user_thread, data=request.data)
+    serializer = UserThreadPostSerializer(instance=user_thread, data=request.data)
 
     if serializer.is_valid():
         serializer.save()
