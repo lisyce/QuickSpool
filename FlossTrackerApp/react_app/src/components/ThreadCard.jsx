@@ -3,7 +3,6 @@ import $ from 'jquery';
 
 import './thread-card.css';
 
-// props will be a thread color model json data 
 function ThreadCard(props) {
   const swatchHex = props.thread_data.hex_value;
   const swatchStyle = {
@@ -13,7 +12,7 @@ function ThreadCard(props) {
   const [modalFormSkeins, setModalFormSkeins] = useState(props.skeins_owned);
 
   const displayName = props.thread_data.brand.name + ' ' + props.thread_data.brand_number + ': ' + props.thread_data.name;
-  const modalID = props.thread_data.brand + '-' + props.thread_data.brand_number;
+  const modalID = props.thread_data.brand.name + '-' + props.thread_data.brand_number;
 
   function getCsrfCookie() {
     const cookies = document.cookie.split(';');
