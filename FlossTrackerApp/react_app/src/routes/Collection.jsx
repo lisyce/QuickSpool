@@ -15,7 +15,7 @@ function Collection () {
             </div>
 
             <div className='col-4'>
-              <ThreadCardList username='admin'/> 
+              <ThreadCardList user_id='1' /> 
             </div>
 
             <div className='col-4'>
