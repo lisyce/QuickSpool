@@ -33,6 +33,12 @@ def thread_color_detail(request, pk):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def users(request):
+    users = User.objects.all();
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def user_detail(request, pk):
     user = User.objects.get(id=pk)
     seralizer = UserSerializer(user, many=False)
@@ -82,4 +88,4 @@ def user_thread(request, pk):
         return HttpResponse(status=200)
 
     else:
-        return HttpResponse(status=400);
+        return HttpResponse(status=405);
