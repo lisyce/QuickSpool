@@ -1,8 +1,6 @@
 from django.urls import path
 from . import views
 
-# TODO add a route to get all users
-
 urlpatterns = [
     path('', views.api_overview, name='api-overview'),
 
@@ -11,7 +9,7 @@ urlpatterns = [
 
     path('user-threads?user=<int:user_pk>', views.user_threads, name='user-collection'),
     path('user-threads/', views.user_threads, name='user-threads'),
-    path('user-threads/<int:pk>', views.user_thread, name='user-thread'),
+    path('user-threads/<int:pk>', views.user_thread_detail, name='user-thread'),
 
     path('users/', views.users, name='users'),
     path('users/<int:pk>', views.user_detail, name='user'),

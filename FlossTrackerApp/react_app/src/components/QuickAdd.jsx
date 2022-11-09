@@ -1,7 +1,8 @@
 import React from 'react';
 
-function QuickAdd() {
+// don't let them add threads that already exist in their collection
 
+function QuickAdd() {
 
   return ( 
     <p>quickadd</p>

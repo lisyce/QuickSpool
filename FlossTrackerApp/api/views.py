@@ -44,48 +44,59 @@ def user_detail(request, pk):
     seralizer = UserSerializer(user, many=False)
     return Response(seralizer.data)
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def user_threads(request, user_pk=None):
-    if user_pk != None:
-        user_threads = UserThread.objects.filter(owner__id=user_pk)
-    else:
-        user_threads = UserThread.objects.all();
-    serializer = UserThreadGetSerializer(user_threads, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        if user_pk != None:
+            user_threads = UserThread.objects.filter(owner__id=user_pk)
+        else:
+            user_threads = UserThread.objects.all();
+        serializer = UserThreadGetSerializer(user_threads, many=True)
+        return Response(serializer.data)
 
-@api_view(['GET', 'POST','DELETE'])
-def user_thread(request, pk):
+    # create a new user thread
+    elif request.method == 'POST':
+        response_code = 201
+
+        serializer = UserThreadPostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            response_code = 400
+        
+        return HttpResponse(status=response_code)
+
+    else:
+        return HttpResponse(status=405); # method not allowed
+    
+
+@api_view(['GET', 'PATCH', 'DELETE'])
+def user_thread_detail(request, pk):
 
     # return the data for the user thread
     if request.method == 'GET':
         user_thread = UserThread.objects.get(id=pk)
+        if user_thread == None:
+            return HttpResponse(status=404)
+
         serializer = UserThreadGetSerializer(user_thread, many=False)
         return Response(serializer.data)
 
-    # update existing user thread, or create it if it doesn't exist
-    elif request.method == 'POST':
-        response_code = 201
-
-        try:
-            user_thread = UserThread.objects.get(owner=request.data['owner'], thread_data=request.data['thread_data'])
-            serializer = UserThreadPostSerializer(instance=user_thread, data=request.data)
-            response_code = 200
-        except:
-            serializer = UserThreadPostSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-        else:
+    # update existing user thread skeins owned
+    elif request.method == 'PATCH':
+        if request.data['skeins_owned'] == None:
             return HttpResponse(status=400)
-        
-        return HttpResponse(status=response_code)
+
+        user_thread = UserThread.objects.get(id=pk)
+        user_thread.skeins_owned = request.data['skeins_owned']
+        user_thread.save()
+        return HttpResponse(status=200)
 
     # delete the specified user thread
     elif request.method == 'DELETE':
         user_thread = UserThread.objects.get(id=pk)
         user_thread.delete()
-
         return HttpResponse(status=200)
 
     else:
-        return HttpResponse(status=405);
+        return HttpResponse(status=405); # method not allowed

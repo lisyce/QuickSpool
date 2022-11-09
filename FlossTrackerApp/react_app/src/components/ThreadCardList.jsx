@@ -13,7 +13,7 @@ function ThreadCardList(props) {
 
   // hook (occurs after render)
   useEffect(() => {
-    $.getJSON('/api/users/' + props.user_id + '/user-threads')
+    $.getJSON('/api/user-threads?user=' + props.user_id)
     .done((json) => {
       // set the loaded and threadDatas state
       setThreadDatas(json);
@@ -22,6 +22,7 @@ function ThreadCardList(props) {
     })
     .fail((jqxhr, textStatus, requestError) => {
       // set the loaded and error state
+      // TODO make it display something other than "loading" if it errors. prompt them to reload or something.
       setLoaded(false);
       setError(textStatus + ', ' + requestError);
       console.log(error);
@@ -31,7 +32,7 @@ function ThreadCardList(props) {
   // TODO if the user has no threads, display something to prompt them to add threads to their collection
   if (isLoaded) {
     const allThreads = threadDatas.map((thread) =>
-      <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} pk={thread.id} owner={thread.owner} />
+      <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} pk={thread.id} />
     );
 
     return <div className='list-group list-group-flush'>{allThreads}</div>;
