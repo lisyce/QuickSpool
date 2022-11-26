@@ -68,15 +68,19 @@ def user_threads(request):
 
     # create a new user thread
     elif request.method == 'POST':
-        response_code = 201
+        # check to see if the user already owns this color
+        owned = UserThread.objects.filter(owner__id=int(request.data['owner']), 
+                                       thread_data__id=int(request.data['thread_data'])).first()
+        if owned != None:
+            return HttpResponse(status=400) # user already owns this color
 
         serializer = UserThreadPostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            return HttpResponse(status=201)
         else:
-            response_code = 400
+            return HttpResponse(status=400)
         
-        return HttpResponse(status=response_code)
 
     else:
         return HttpResponse(status=405); # method not allowed

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 
+
+
 // don't let them add threads that already exist in their collection
 
 function QuickAdd(props) {
