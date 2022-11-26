@@ -19,11 +19,8 @@ function Collection () {
             </div>
 
             <div className='col-4'>
-              <div id='add-threads' className='d-flex align-items-center'>
                 <h3>Quick Add</h3>
-                <QuickAdd />
-              </div>
-
+                <QuickAdd user_id='1'/>
             </div>
             
           </div>

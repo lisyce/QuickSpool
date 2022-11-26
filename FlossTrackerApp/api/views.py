@@ -11,10 +11,10 @@ from .serializers import *
 def api_overview(request):
     api_urls = {
         'All Thread Colors' : '/thread-colors',
+        'Thread Color Detail' : '/thread-colors/<int:pk>',
         'All User Threads' : '/user-threads',
         'User Collection' : '/user-threads?user=<int:user_pk>',
         'User Thread Detail' : '/user-threads/<int:pk>',
-        'Thread Color Detail' : '/thread-colors/<int:pk>',
         'User Detail' : '/users/<int:pk>',
     }
 
@@ -44,13 +44,25 @@ def user_detail(request, pk):
     seralizer = UserSerializer(user, many=False)
     return Response(seralizer.data)
 
+@api_view(['GET'])
+def user_collection(request, pk):
+    query = request.GET.dict() # get query params
+
+    if 'owned' not in query or query['owned'] == 'true':
+        threads = UserThread.objects.filter(owner__id=pk)
+        serializer = UserThreadGetSerializer(threads, many=True)
+    elif query['owned'] == 'false':
+        # get all the threads this user doesn't own
+        threads = ThreadColor.objects.filter(userthread=None)
+        serializer = ThreadColorSerializer(threads, many=True)
+    else:
+        return HttpResponse(status=400)
+    return Response(serializer.data)
+
 @api_view(['GET', 'POST'])
-def user_threads(request, user_pk=None):
+def user_threads(request):
     if request.method == 'GET':
-        if user_pk != None:
-            user_threads = UserThread.objects.filter(owner__id=user_pk)
-        else:
-            user_threads = UserThread.objects.all();
+        user_threads = UserThread.objects.all();
         serializer = UserThreadGetSerializer(user_threads, many=True)
         return Response(serializer.data)
 

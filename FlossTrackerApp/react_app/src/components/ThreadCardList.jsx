@@ -13,7 +13,7 @@ function ThreadCardList(props) {
 
   // hook (occurs after render)
   useEffect(() => {
-    $.getJSON('/api/user-threads?user=' + props.user_id)
+    $.getJSON(`../api/users/${props.user_id}/collection`)
     .done((json) => {
       // set the loaded and threadDatas state
       setThreadDatas(json);

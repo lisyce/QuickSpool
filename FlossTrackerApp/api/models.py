@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth import models as auth_models
 
-# Create your models here.
-
 class Brand(models.Model):
     class Meta:
         verbose_name_plural = 'Brands'
@@ -10,6 +8,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=50, unique=True)
     def __str__(self):
         return self.name
+
 
 class ThreadColor(models.Model):
     class Meta:
