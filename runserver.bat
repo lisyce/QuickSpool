@@ -1,7 +1,7 @@
 @echo off
 cd FlossTrackerApp
 
-if "%1%" == "-build" (
+if "%1%" == "-b" (
     cd react_app
     call npm run build
     cd ..
