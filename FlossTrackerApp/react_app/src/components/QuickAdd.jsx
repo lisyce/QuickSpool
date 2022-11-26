@@ -28,7 +28,26 @@ function QuickAdd(props) {
   }, []);
 
   if (isLoaded) {
-    
+    return <>
+      <form action='/collection'>
+        <div className='row g-1 align-items-end'>
+          <div className='col-8'>
+            <label for='search' className='form-label'>Thread Color</label>
+            <input id='search' type='text' className='form-control' placeholder='Search Threads' required></input>
+          </div>
+
+          <div className='col'>
+            <label for='skeins-number' className='form-label'># Skeins</label>
+            <input id='skeins-number' type='text' className='form-control' required></input>
+          </div>
+
+          <div className='col'>
+            <button type='submit' className='btn btn-outline-secondary'>Add</button>
+          </div>
+        </div>
+
+      </form>
+    </>
   }
 
   return <></>;

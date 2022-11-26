@@ -50,36 +50,39 @@ function ThreadCard(props) {
                   <div className='modal-swatch' style={swatchStyle}>&nbsp;</div>
 
                     <form action='/collection' onSubmit={() => {
-                      const validatedSkeins = makeValidSkeinsOwned($('#floating-input-' + modalID).val());
+                        const validatedSkeins = makeValidSkeinsOwned($('#floating-input-' + modalID).val());
 
-                      const csrfToken = getCsrfCookie();
+                        const csrfToken = getCsrfCookie();
 
-                      $.ajax({
-                        url: '/api/user-threads/' + props.pk,
-                        type: 'PATCH',
-                        headers: {
-                          'Content-type': 'application/json',
-                          'X-CSRFToken': csrfToken
-                        },
-                        data: JSON.stringify({
-                          skeins_owned: validatedSkeins,
+                        $.ajax({
+                          url: '/api/user-threads/' + props.pk,
+                          type: 'PATCH',
+                          headers: {
+                            'Content-type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                          },
+                          data: JSON.stringify({
+                            skeins_owned: validatedSkeins,
+                          })
                         })
-                      })
-                      .fail((jqxhr, textStatus, requestError) => {
-                        console.log(textStatus + ', ' + requestError);
-                      });
-                    }}>
+                        .fail((jqxhr, textStatus, requestError) => {
+                          console.log(textStatus + ', ' + requestError);
+                        });
+                      }}>
+
                       <div className='input-group my-2'>
                         <div className='form-floating'>
                           <input type='text' id={'floating-input-' + modalID} className='form-control' placeholder='1.00' value={modalFormSkeins} pattern='(^\d{0,3}\.{0,1}$)|(^\d{0,3}\.\d*$)' onChange={(event) => {
                             setModalFormSkeins(event.target.value);
                           }} aria-describedby='skeins-helper'>
                         </input>
+                        
                         <label for={'floating-input-' + modalID}>Skeins Owned</label>
                       </div>
                       <button type='submit' className='btn btn-outline-secondary'>Update</button>
                       </div>
-                      <div className='form-text ms-1'>Max 999.99 skeins</div>
+
+                      <div id='skeins-helper' className='form-text ms-1'>Max 999.99 skeins</div>
                     </form>
 
                 </div>
