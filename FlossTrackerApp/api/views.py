@@ -1,5 +1,5 @@
-from urllib import response
 from django.http import HttpResponse
+from django.db.models import Q
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -53,7 +53,7 @@ def user_collection(request, pk):
         serializer = UserThreadGetSerializer(threads, many=True)
     elif query['owned'] == 'false':
         # get all the threads this user doesn't own
-        threads = ThreadColor.objects.filter(userthread=None)
+        threads = ThreadColor.objects.filter(~Q(userthread__owner=pk))
         serializer = ThreadColorSerializer(threads, many=True)
     else:
         return HttpResponse(status=400)
