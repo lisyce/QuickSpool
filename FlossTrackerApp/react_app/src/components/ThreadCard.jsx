@@ -1,5 +1,8 @@
-import {React, useState, useEffect} from 'react';
+import { React, useState, useEffect } from 'react';
 import $ from 'jquery';
+
+import { getCsrfCookie } from '../utils/csrf-cookie'
+import { makeValidSkeinsOwned } from '../utils/validators'
 
 import './thread-card.css';
 
@@ -13,28 +16,6 @@ function ThreadCard(props) {
 
   const displayName = props.thread_data.brand.name + ' ' + props.thread_data.brand_number + ': ' + props.thread_data.name;
   const modalID = props.thread_data.brand.name + '-' + props.thread_data.brand_number;
-
-  function getCsrfCookie() {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      let c = cookies[i];
-      c = c.trim();
-      if (c.substring(0, 10) == 'csrftoken=') {
-        return c.substring(10);
-      }
-    }
-    return null;
-  }
-
-  function makeValidSkeinsOwned(text) {
-    if (!text.includes('.')) text += '.';
-    const halves = text.split('.');
-    if (halves[1].length > 2) {
-      halves[1] = halves[1].substring(0, 2);
-    }
-    const joined = halves[0] + '.' + halves[1];
-    return joined;
-  }
 
   // reset the text field in the modal when it closes with an event listener
   useEffect(() => {
