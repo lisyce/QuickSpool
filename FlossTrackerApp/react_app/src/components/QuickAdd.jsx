@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 
-
+import { searchThreads } from '../utils/search'
 
 // don't let them add threads that already exist in their collection
 
@@ -33,7 +33,12 @@ function QuickAdd(props) {
         <div className='row g-1 align-items-end'>
           <div className='col-8'>
             <label for='search' className='form-label'>Thread Color</label>
-            <input id='search' type='text' className='form-control' placeholder='Search Threads' required></input>
+            <input id='search' type='text' className='form-control' placeholder='Search Threads' required onChange={(event) => {
+              const searchTerms = event.target.value;
+              // can search by number, brand, or name
+              const availableThreads = searchThreads(searchTerms, unownedColors);
+              console.log(availableThreads);
+            }}></input>
           </div>
 
           <div className='col'>
