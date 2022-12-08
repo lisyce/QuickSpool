@@ -11,6 +11,7 @@ function QuickAdd(props) {
   const [error, setError] = useState(null);
   const [isLoaded, setLoaded] = useState(false);
   const [unownedColors, setUnownedColors] = useState([]);
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
 
   // hook
   useEffect(() => {
@@ -28,17 +29,28 @@ function QuickAdd(props) {
   }, []);
 
   if (isLoaded) {
+
+    const options = searchSuggestions.map((option) => <option value={`${option.brand.name} ${option.brand_number}: ${option.name}`}></option>);
+
     return <>
       <form action='/collection'>
         <div className='row g-1 align-items-end'>
           <div className='col-8'>
             <label for='search' className='form-label'>Thread Color</label>
-            <input id='search' type='text' className='form-control' placeholder='Search Threads' required onChange={(event) => {
+            <input id='search' type='text' list='datalist' className='form-control' placeholder='Search Threads' required onChange={(event) => {
+
               const searchTerms = event.target.value;
               // can search by number, brand, or name
               const availableThreads = searchThreads(searchTerms, unownedColors);
               console.log(availableThreads);
+              setSearchSuggestions(availableThreads);
+
             }}></input>
+
+            <datalist id='datalist'>
+              {options}
+            </datalist>
+
           </div>
 
           <div className='col'>
