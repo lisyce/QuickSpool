@@ -3,8 +3,6 @@ function searchThreads(searchTerms, threads, limit=5) {
   // for each thread in threads, see if the searchTerms match number, id, or name
   // are going to have to prioritize matches to those that match the most search terms
 
-  // TODO group/sort returned threads by brand and then by number
-
   let matches = [];
 
   const splitTerms = searchTerms.split(' ');
