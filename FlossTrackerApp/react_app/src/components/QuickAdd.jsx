@@ -30,8 +30,6 @@ function QuickAdd(props) {
 
   if (isLoaded) {
 
-    const options = searchSuggestions.map((option) => <option value={`${option.brand.name} ${option.brand_number}: ${option.name}`}></option>);
-
     return <>
       <form action='/collection'>
         <div className='row g-1 align-items-end'>
@@ -42,13 +40,12 @@ function QuickAdd(props) {
               const searchTerms = event.target.value;
               // can search by number, brand, or name
               const availableThreads = searchThreads(searchTerms, unownedColors);
-              console.log(availableThreads);
               setSearchSuggestions(availableThreads);
 
             }}></input>
 
             <datalist id='datalist'>
-              {options}
+              {searchSuggestions.map((option) => <option value={`${option.brand.name} ${option.brand_number}: ${option.name}`}></option>)}
             </datalist>
 
           </div>

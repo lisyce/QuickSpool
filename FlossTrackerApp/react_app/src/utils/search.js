@@ -3,6 +3,8 @@ function searchThreads(searchTerms, threads, limit=5) {
   // for each thread in threads, see if the searchTerms match number, id, or name
   // are going to have to prioritize matches to those that match the most search terms
 
+  // TODO group/sort returned threads by brand and then by number
+
   let matches = [];
 
   const splitTerms = searchTerms.split(' ');
@@ -23,7 +25,6 @@ function searchThreads(searchTerms, threads, limit=5) {
         // not a number: compare to name or brand
         if (brand.includes(term) || name.includes(term)) {
           thread.priority++;
-          matches.push(thread);
         }
 
         // bonus priority for being at the start of the name or brand
@@ -33,13 +34,24 @@ function searchThreads(searchTerms, threads, limit=5) {
         const num = parseInt(term);
         if (thread.brand_number == num) {
           thread.priority++;
-          matches.push(thread);
         }
       }
+      if (!matches.find(e => e.id === thread.id)) matches.push(thread);
+
     });
   }
 
-  return matches.sort((a, b) => b.priority - a.priority).slice(0, limit);
+  const sorted = matches.sort((a, b) => {
+    if (b.priority - a.priority == 0) {
+      if (b.brand.name == a.brand.name) {
+        return a.brand_number - b.brand_number;
+      }
+      return a.brand.name.localeCompare(b.brand.name);
+    } 
+    return b.priority - a.priority;
+  }).slice(0, limit);
+
+  return sorted;
 }
 
 export { searchThreads };
