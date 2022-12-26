@@ -9,20 +9,24 @@ function Collection () {
       <>
         <Navbar />
         <main>
-          <div className='row'>
-            <div className='col-4'>
+          <div className='container-fluid px-5'>
+            <div className='row'>
+              <div className='col-12 col-lg-4 mb-3'>
 
-            </div>
+              </div>
 
-            <div className='col-4'>
-              <ThreadCardList user_id='1' /> 
-            </div>
+              <div className='col-12 col-lg-4 mb-3'>
+                <ThreadCardList user_id='1' /> 
+              </div>
 
-            <div className='col-4'>
-                <h3>Quick Add</h3>
-                <QuickAdd user_id='1'/>
+              <div className='col-12 order-first order-lg-0 col-lg-4 mb-3'>
+                <div className='container-fluid'>
+                  <h3>Quick Add</h3>
+                  <QuickAdd user_id='1'/>
+                </div>
+              </div>
+              
             </div>
-            
           </div>
         </main>
       </>

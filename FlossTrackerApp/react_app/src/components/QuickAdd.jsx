@@ -37,12 +37,12 @@ function QuickAdd(props) {
             <ThreadAutofillInput data={unownedColors}/>
           </div>
 
-          <div className='col'>
+          <div className='col-3'>
             <label for='skeins-number' className='form-label'># Skeins</label>
             <input id='skeins-number' type='text' className='form-control' required></input>
           </div>
 
-          <div className='col'>
+          <div className='col-1'>
             <button type='submit' className='btn btn-outline-secondary'>Add</button>
           </div>
         </div>

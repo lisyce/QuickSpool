@@ -4,8 +4,16 @@
     border: 1px solid black;
 }
 
-.modal-swatch {
-    aspect-ratio: 4/3;
+@media only screen and (max-width : 992px) {
+    .modal-swatch {
+        height: 50%;
+    }
+}
+
+@media only screen and (min-width : 992px) {
+    .modal-swatch {
+        aspect-ratio: 4/3;
+    }
 }
 
 .badge {
