@@ -32,18 +32,20 @@ function QuickAdd(props) {
     return <>
       <form action='/collection'>
         <div className='row g-1 align-items-end'>
-          <div className='col-8'>
+          <div className='col-12'>
             <label for='search' className='form-label'>Thread Color</label>
             <ThreadAutofillInput data={unownedColors}/>
           </div>
 
-          <div className='col-3'>
+          <div className='col-9 mt-2'>
             <label for='skeins-number' className='form-label'># Skeins</label>
-            <input id='skeins-number' type='text' className='form-control' required></input>
+            <input id='skeins-number' type='text' className='form-control' required placeholder='1.5'></input>
           </div>
 
-          <div className='col-1'>
-            <button type='submit' className='btn btn-outline-secondary'>Add</button>
+          <div className='col-3'>
+            <div className='container-fluid px-0'>
+              <button type='submit' className='btn btn-outline-secondary' style={{width: "100%"}}>Add</button>
+            </div>
           </div>
         </div>
 
