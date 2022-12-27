@@ -32,7 +32,7 @@ function QuickAdd(props) {
   if (isLoaded) {
 
     return <>
-      <form action='/collection' onSubmit={(event) => {
+      <form onSubmit={(event) => {
 
         // validate text
         const threadID = autofilledThreadToID(event.target.thread.value, unownedColors);

@@ -49,7 +49,7 @@ function ThreadCard(props) {
                 <div className='col-12 col-lg-4'>
                   <div className='modal-swatch' style={swatchStyle}>&nbsp;</div>
 
-                    <form action='/collection' onSubmit={() => {
+                    <form onSubmit={() => {
                       const validatedSkeins = makeValidSkeinsOwned($('#floating-input-' + modalID).val());
 
                       const csrfToken = getCsrfCookie();
