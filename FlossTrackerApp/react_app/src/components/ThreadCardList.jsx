@@ -18,7 +18,6 @@ function ThreadCardList(props) {
       // set the loaded and threadDatas state
       setThreadDatas(json);
       setLoaded(true);
-      console.log(json);
     })
     .fail((jqxhr, textStatus, requestError) => {
       // set the loaded and error state

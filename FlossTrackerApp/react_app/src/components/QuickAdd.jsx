@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 import ThreadAutofillInput from './ThreadAutofillInput';
 
+import { makeValidSkeinsOwned, autofilledThreadToID } from '../utils/validators';
+import { getCsrfCookie } from '../utils/csrf-cookie'
 
 // don't let them add threads that already exist in their collection
 
@@ -19,7 +21,6 @@ function QuickAdd(props) {
     .done((json) => {
       setUnownedColors(json);
       setLoaded(true);
-      console.log(json);
     })
     .fail((jqxhr, textStatus, requestError) => {
       setLoaded(false);
@@ -31,7 +32,32 @@ function QuickAdd(props) {
   if (isLoaded) {
 
     return <>
-      <form action='/collection'>
+      <form action='/collection' onSubmit={(event) => {
+
+        // validate text
+        const threadID = autofilledThreadToID(event.target.thread.value, unownedColors);
+        const skeins = makeValidSkeinsOwned(event.target.skeins.value);
+
+        const csrfToken = getCsrfCookie();
+
+        $.ajax({
+          url: '/api/user-threads/',
+          type: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': csrfToken
+          },
+          data: JSON.stringify({
+            owner: props.user_id,
+            thread_data: threadID,
+            skeins_owned: skeins
+          })
+        })
+        .fail((jqxhr, textStatus, requestError) => {
+          console.log(textStatus + ', ' + requestError);
+        });
+
+      }}>
         <div className='row g-1 align-items-end'>
           <div className='col-12'>
             <label for='search' className='form-label'>Thread Color</label>
@@ -40,7 +66,7 @@ function QuickAdd(props) {
 
           <div className='col-9 mt-2'>
             <label for='skeins-number' className='form-label'># Skeins</label>
-            <input id='skeins-number' type='text' className='form-control' required placeholder='1.5' value={text} onChange={(event) => {
+            <input id='skeins-number' type='text' name='skeins' className='form-control' required placeholder='1.5' value={text} onChange={(event) => {
               setText(event.target.value);
             }}></input>
           </div>

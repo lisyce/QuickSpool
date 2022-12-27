@@ -5,7 +5,7 @@ function ThreadAutofillInput(props) {
     const [searchSuggestions, setSearchSuggestions] = useState([]);
 
     return <>
-        <input id='search' type='text' list='datalist' className='form-control' placeholder='Search Threads' required onChange={(event) => {
+        <input id='search' name='thread' type='text' list='datalist' className='form-control' placeholder='Search Threads' required onChange={(event) => {
             const searchTerms = event.target.value;
             const availableThreads = searchThreads(searchTerms, props.data);
             setSearchSuggestions(availableThreads);

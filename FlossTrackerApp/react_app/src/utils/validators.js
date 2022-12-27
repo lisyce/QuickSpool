@@ -9,4 +9,14 @@ function makeValidSkeinsOwned(text) {
   return joined;
 }
 
-export { makeValidSkeinsOwned };
+function autofilledThreadToID(text, threads) {
+  const parts = text.split(' ');
+  const brandName = parts[0];
+  const brandNumber = parts[1].slice(0, -1);
+  
+  const thread = threads.filter(e => e.brand_number === brandNumber).find(e => e.brand.name === brandName);
+  
+  return thread.id;
+}
+
+export { makeValidSkeinsOwned, autofilledThreadToID };
