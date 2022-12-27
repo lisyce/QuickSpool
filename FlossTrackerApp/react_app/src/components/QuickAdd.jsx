@@ -11,6 +11,7 @@ function QuickAdd(props) {
   const [error, setError] = useState(null);
   const [isLoaded, setLoaded] = useState(false);
   const [unownedColors, setUnownedColors] = useState([]);
+  const [text, setText] = useState('');
 
   // hook
   useEffect(() => {
@@ -39,7 +40,9 @@ function QuickAdd(props) {
 
           <div className='col-9 mt-2'>
             <label for='skeins-number' className='form-label'># Skeins</label>
-            <input id='skeins-number' type='text' className='form-control' required placeholder='1.5'></input>
+            <input id='skeins-number' type='text' className='form-control' required placeholder='1.5' value={text} onChange={(event) => {
+              setText(event.target.value);
+            }}></input>
           </div>
 
           <div className='col-3'>
