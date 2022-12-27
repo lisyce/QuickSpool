@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.db.models import Q
+from django.core.exceptions import ValidationError
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -105,8 +106,12 @@ def user_thread_detail(request, pk):
 
         user_thread = UserThread.objects.get(id=pk)
         user_thread.skeins_owned = request.data['skeins_owned']
-        user_thread.save()
-        return HttpResponse(status=200)
+        try:
+            user_thread.full_clean()
+            user_thread.save()
+            return HttpResponse(status=200)
+        except ValidationError as e:
+            return HttpResponse(status=400)
 
     # delete the specified user thread
     elif request.method == 'DELETE':

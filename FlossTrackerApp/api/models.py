@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import models as auth_models
+from django.core.validators import MinValueValidator
 
 class Brand(models.Model):
     class Meta:
@@ -36,7 +37,9 @@ class UserThread(models.Model):
 
     thread_data = models.ForeignKey(ThreadColor, on_delete=models.PROTECT)
     owner = models.ForeignKey(auth_models.User, on_delete=models.CASCADE)
-    skeins_owned = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+    skeins_owned = models.DecimalField(max_digits=5, decimal_places=2, default=-1.0, validators=[
+        MinValueValidator(0.01)
+    ])
 
     def __str__(self):
         return "[{}] {} ({} skeins)".format(str(self.owner), str(self.thread_data), self.skeins_owned)    
