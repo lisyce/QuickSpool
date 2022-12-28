@@ -29,12 +29,15 @@ function searchThreads(searchTerms, threads, limit=5) {
         if (brand.startsWith(term) || name.startsWith(term)) thread.priority++;
 
       } else {
-        const num = parseInt(term);
-        if (thread.brand_number === num) {
+        if (parseInt(thread.brand_number) === parseInt(term)) { // bonus priority for perfect match
           thread.priority++;
         }
+
+        if (thread.brand_number.startsWith(term)) thread.priority++; // bonus priority for starting with the term
+
+        if (thread.brand_number.includes(term)) thread.priority++;
       }
-      if (!matches.find(e => e.id === thread.id)) matches.push(thread);
+      if (thread.priority > 0 && !matches.find(e => e.id === thread.id)) matches.push(thread);
 
     });
   }
@@ -42,7 +45,7 @@ function searchThreads(searchTerms, threads, limit=5) {
   const sorted = matches.sort((a, b) => {
     if (b.priority - a.priority === 0) {
       if (b.brand.name === a.brand.name) {
-        return a.brand_number - b.brand_number;
+        return parseInt(a.brand_number) - parseInt(b.brand_number);
       }
       return a.brand.name.localeCompare(b.brand.name);
     } 
