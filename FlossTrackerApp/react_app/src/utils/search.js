@@ -6,7 +6,7 @@ function searchThreads(searchTerms, threads, limit=5) {
   let matches = [];
 
   const splitTerms = searchTerms.split(' ');
-  if (splitTerms.length == 0) return matches;
+  if (splitTerms.length === 0) return matches;
 
   for (let idx in threads) {
     let thread = threads[idx];
@@ -30,7 +30,7 @@ function searchThreads(searchTerms, threads, limit=5) {
 
       } else {
         const num = parseInt(term);
-        if (thread.brand_number == num) {
+        if (thread.brand_number === num) {
           thread.priority++;
         }
       }
@@ -40,8 +40,8 @@ function searchThreads(searchTerms, threads, limit=5) {
   }
 
   const sorted = matches.sort((a, b) => {
-    if (b.priority - a.priority == 0) {
-      if (b.brand.name == a.brand.name) {
+    if (b.priority - a.priority === 0) {
+      if (b.brand.name === a.brand.name) {
         return a.brand_number - b.brand_number;
       }
       return a.brand.name.localeCompare(b.brand.name);

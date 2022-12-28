@@ -6,14 +6,27 @@
 
 @media only screen and (max-width : 992px) {
     .modal-swatch {
-        height: 50%;
+        aspect-ratio: 4/0.5;
     }
 }
 
 @media only screen and (min-width : 992px) {
     .modal-swatch {
-        aspect-ratio: 4/3;
+        aspect-ratio: 4/2;
     }
+}
+
+.trash {
+    font-size: 1.5em;
+    color: #dc3545;
+}
+
+.btn-outline-danger {
+    width: 80%;
+}
+
+.btn-outline-danger:hover {
+    background-color: #f8f9fa !important;
 }
 
 .badge {

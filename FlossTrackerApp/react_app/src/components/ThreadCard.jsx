@@ -13,16 +13,20 @@ function ThreadCard(props) {
   };
 
   const [modalFormSkeins, setModalFormSkeins] = useState(props.skeins_owned);
+  const [deleted, setDeleted] = useState(false);
 
   const displayName = props.thread_data.brand.name + ' ' + props.thread_data.brand_number + ': ' + props.thread_data.name;
   const modalID = props.thread_data.brand.name + '-' + props.thread_data.brand_number;
 
   // reset the text field in the modal when it closes with an event listener
   useEffect(() => {
-    const modal = document.getElementById('detail-thread-view-' + modalID);
+    const id = 'floating-input-' + modalID;
+
+    const modal = document.getElementById(id);
     modal.addEventListener('hidden.bs.modal', event => {
       setModalFormSkeins(props.skeins_owned);
     });
+
   }, []);
 
   return (
@@ -46,48 +50,77 @@ function ThreadCard(props) {
           <div className='modal-body'>
             <div className='container-fluid'>
               <div className='row'>
-                <div className='col-12 col-lg-4'>
+                <div className='col-12 col-lg-6'>
                   <div className='modal-swatch' style={swatchStyle}>&nbsp;</div>
 
                     <form onSubmit={() => {
-                      const validatedSkeins = makeValidSkeinsOwned($('#floating-input-' + modalID).val());
 
-                      const csrfToken = getCsrfCookie();
+                      if (!deleted) {
+                        const validatedSkeins = makeValidSkeinsOwned($('#floating-input-' + modalID).val());
 
-                      $.ajax({
-                        url: '/api/user-threads/' + props.pk,
-                        type: 'PATCH',
-                        headers: {
-                          'Content-type': 'application/json',
-                          'X-CSRFToken': csrfToken
-                        },
-                        data: JSON.stringify({
-                          skeins_owned: validatedSkeins,
+                        const csrfToken = getCsrfCookie();
+  
+                        $.ajax({
+                          url: '/api/user-threads/' + props.pk,
+                          type: 'PATCH',
+                          headers: {
+                            'Content-type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                          },
+                          data: JSON.stringify({
+                            skeins_owned: validatedSkeins,
+                          })
                         })
-                      })
-                      .fail((jqxhr, textStatus, requestError) => {
-                        console.log(textStatus + ', ' + requestError);
-                      });
+                        .fail((jqxhr, textStatus, requestError) => {
+                          console.log(textStatus + ', ' + requestError);
+                        });
+                      }
+                      
                     }}>
+                      <div className='flex-row d-flex'>
+                        <div className='col-10 d-flex'>
+                          <div className='input-group my-2'>
+                            <div className='form-floating'>
+                              <input type='text' id={'floating-input-' + modalID} className='form-control' placeholder='1.00' value={modalFormSkeins} pattern='(^\d{0,3}\.{0,1}$)|(^\d{0,3}\.\d*$)' onChange={(event) => {
+                                setModalFormSkeins(event.target.value);
+                              }}>
+                              </input>
+                            
+                              <label for={'floating-input-' + modalID}>Skeins Owned</label>
+                            </div>
 
-                      <div className='input-group my-2'>
-                        <div className='form-floating'>
-                          <input type='text' id={'floating-input-' + modalID} className='form-control' placeholder='1.00' value={modalFormSkeins} pattern='(^\d{0,3}\.{0,1}$)|(^\d{0,3}\.\d*$)' onChange={(event) => {
-                            setModalFormSkeins(event.target.value);
-                          }} aria-describedby='skeins-helper'>
-                          </input>
-                        
-                          <label for={'floating-input-' + modalID}>Skeins Owned</label>
+                            <button type='submit' className='btn btn-outline-secondary'>Update</button>
+                          </div>
                         </div>
 
-                        <button type='submit' className='btn btn-outline-secondary'>Update</button>
-                      </div>
+                        <div className='col-2 d-flex justify-content-end'>
+                          <button className='d-flex justify-content-center align-items-center my-2 btn btn-outline-danger' aria-label={'Delete ' + modalID} onClick={() => {
+                          
+                            setDeleted(true);
 
-                    <div id='skeins-helper' className='form-text ms-1'>Max 999.99 skeins</div>
+                            const csrfToken = getCsrfCookie();
+
+                            $.ajax({
+                              url: '/api/user-threads/' + props.pk,
+                              type: 'DELETE',
+                              headers: {
+                                'Content-type': 'application/json',
+                                'X-CSRFToken': csrfToken
+                              }
+                            })
+                            .fail((jqxhr, textStatus, requestError) => {
+                              console.log(textStatus + ', ' + requestError);
+                            });
+                          }}>
+                            <i class="trash bi bi-trash3"></i>
+                          </button>
+                        </div>
+                      </div>                  
+
                   </form>
 
                 </div>
-                <div className='col-12 col-lg-8'>
+                <div className='col-12 col-lg-6'>
 
                 </div>
               </div>

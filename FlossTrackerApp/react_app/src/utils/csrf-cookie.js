@@ -3,7 +3,7 @@ function getCsrfCookie() {
   for (let i = 0; i < cookies.length; i++) {
     let c = cookies[i];
     c = c.trim();
-    if (c.substring(0, 10) == 'csrftoken=') {
+    if (c.substring(0, 10) === 'csrftoken=') {
       return c.substring(10);
     }
   }
