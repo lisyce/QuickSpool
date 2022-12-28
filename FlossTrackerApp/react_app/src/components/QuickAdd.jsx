@@ -35,7 +35,12 @@ function QuickAdd(props) {
       <form onSubmit={(event) => {
 
         // validate text
-        const threadID = autofilledThreadToID(event.target.thread.value, unownedColors);
+        let threadID;
+        try {
+          threadID = autofilledThreadToID(event.target.thread.value, unownedColors);
+        } catch (error) {
+          threadID = -1;
+        }
         const skeins = makeValidSkeinsOwned(event.target.skeins.value);
 
         const csrfToken = getCsrfCookie();
