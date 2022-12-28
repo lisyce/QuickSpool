@@ -30,7 +30,12 @@ function ThreadCardList(props) {
 
   // TODO if the user has no threads, display something to prompt them to add threads to their collection
   if (isLoaded) {
-    const allThreads = threadDatas.map((thread) =>
+    const allThreads = threadDatas.sort((a, b) => {
+      if (b.thread_data.brand.name === a.thread_data.brand.name) {
+        return parseInt(a.thread_data.brand_number) - parseInt(b.thread_data.brand_number);
+      }
+      return b.thread_data.brand.name - a.thread_data.brand.name;
+    }).map((thread) =>
       <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} pk={thread.id} />
     );
 
