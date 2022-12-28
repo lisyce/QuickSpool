@@ -34,12 +34,16 @@ function ThreadCardList(props) {
       if (b.thread_data.brand.name === a.thread_data.brand.name) {
         return parseInt(a.thread_data.brand_number) - parseInt(b.thread_data.brand_number);
       }
-      return b.thread_data.brand.name - a.thread_data.brand.name;
-    }).map((thread) =>
+      return a.thread_data.brand.name.localeCompare(b.thread_data.brand.name);
+    });
+
+    const threadCards = allThreads.map((thread) =>
       <ThreadCard thread_data={thread.thread_data} skeins_owned={thread.skeins_owned} pk={thread.id} />
     );
 
-    return <div className='list-group list-group-flush'>{allThreads}</div>;
+    console.log(allThreads);
+
+    return <div className='list-group list-group-flush'>{threadCards}</div>;
   }
   return <h1>Loading...</h1>; // TODO make this more attractive
 
