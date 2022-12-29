@@ -32,7 +32,7 @@ function ThreadCard(props) {
   return (
     <>
     <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
-      <h5 className='my-auto'>{displayName}</h5>
+      <h5 className='threadcard-header threadcard-header-responsive my-auto'>{displayName}</h5>
       <span className='position-relative btn swatch my-auto me-3' style={swatchStyle}>&nbsp;
         <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.skeins_owned}</span>
       </span>

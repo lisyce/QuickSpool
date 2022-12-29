@@ -1,12 +1,42 @@
 .swatch {
     height: 2em;
-    width: 3em;
     border: 1px solid black;
+}
+
+@media only screen and (max-width : 450px) {
+    .threadcard-header-responsive {
+        font-size: small !important;
+    }
+}
+
+@media only screen and (min-width : 576px) {
+    .swatch {
+        width: 3em;
+    }
+
+    .threadcard-header-responsive {
+        font-size: large;
+    }
+
+}
+
+@media only screen and (max-width : 576px) {
+    .swatch {
+        max-width: 3em;
+    }
+
+    #spacer-label {
+        display: none;
+    }
 }
 
 @media only screen and (max-width : 992px) {
     .modal-swatch {
         aspect-ratio: 4/0.5;
+    }
+
+    .threadcard-header-responsive {
+        font-size: large;
     }
 }
 
@@ -14,7 +44,12 @@
     .modal-swatch {
         aspect-ratio: 4/2;
     }
+
+    .threadcard-header-responsive {
+        font-size: medium;
+    }
 }
+
 
 .trash {
     font-size: 1.5em;
@@ -35,4 +70,8 @@
 
 .list-group-item {
     min-height: 4em !important;
+}
+
+.threadcard-header {
+    max-width: 60%;
 }
