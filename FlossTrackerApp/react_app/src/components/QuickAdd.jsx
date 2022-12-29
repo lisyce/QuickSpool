@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import $ from 'jquery';
 import ThreadAutofillInput from './ThreadAutofillInput';
 
@@ -6,16 +6,33 @@ import { makeValidSkeinsOwned, autofilledThreadToID } from '../utils/validators'
 import { getCsrfCookie } from '../utils/csrf-cookie'
 
 // don't let them add threads that already exist in their collection
-
 function QuickAdd(props) {
 
   // state
   const [error, setError] = useState(null);
   const [isLoaded, setLoaded] = useState(false);
   const [unownedColors, setUnownedColors] = useState([]);
-  const [text, setText] = useState('');
+  const [skeinText, setSkeinText] = useState('');
   const [searchValid, setSearchValid] = useState(true);
   const [skeinsValid, setSkeinsValid] = useState(true);
+
+  function skeinErrReducer(state, num) {
+    setSkeinsValid(false);
+
+    num = parseInt(num);
+    if (isNaN(num)) {
+      return 'Please enter a valid # of skeins.';
+    } else if (num <= 0) {
+      return '# skeins must be greater than 0.';
+    } else if (num >= 1000) {
+      return '# skeins must be less than 1,000.';
+    } else {
+      setSkeinsValid(true);
+      return '';
+    }
+  }
+
+  const [skeinErrText, setSkeinErrText] = useReducer(skeinErrReducer, 'Please enter a valid # of skeins.');
 
   // hook
   useEffect(() => {
@@ -37,11 +54,10 @@ function QuickAdd(props) {
 
     let skeinsNumClasses = 'form-control';
     let feedback = null;
-  
 
     if (!skeinsValid) {
       skeinsNumClasses += ' is-invalid';
-      feedback = <div id='invalid-skeins' className='invalid-feedback'>Please enter a valid # of skeins.</div>
+      feedback = <div id='invalid-skeins' className='invalid-feedback'>{skeinErrText}</div>
       $('#skeins-number').attr('aria-describedby', 'invalid-skeins');
     }
 
@@ -60,12 +76,17 @@ function QuickAdd(props) {
           valid = false;
         }
 
-        let num = parseInt(event.target.skeins.value);
-        if (isNaN(num)) {
-          setSkeinsValid(false);
-          valid = false;
-        } else setSkeinsValid(true);
+        // validate skein number
+        const num = event.target.skeins.value;
+        setSkeinErrText(num);
 
+        // this is bad coding practice but don't tell anyone. state doesn't update until re-render and we need the answer now
+        // skeinErrReducer returns empty string if the skeins are valid
+        const err = skeinErrReducer({}, num);
+
+        if (err !== '') valid = false;
+
+        // stop form from submitting if invalid
         if (!valid) {
           event.preventDefault();
           return false;
@@ -101,8 +122,8 @@ function QuickAdd(props) {
           <div className='col-12 col-sm-9 mt-2'>
             <label for='skeins-number' className='form-label'># Skeins</label>
             <input id='skeins-number' type='text' name='skeins' className={skeinsNumClasses}
-            required autocomplete='off' placeholder='1.5' value={text} onChange={(event) => {
-              setText(event.target.value);
+            required autocomplete='off' placeholder='1.5' value={skeinText} onChange={(event) => {
+              setSkeinText(event.target.value);
             }}></input>
             {feedback}
           </div>
