@@ -19,4 +19,19 @@ function autofilledThreadToID(text, threads) {
   return thread.id;
 }
 
-export { makeValidSkeinsOwned, autofilledThreadToID };
+function skeinNumToErrMsg(skeins) {
+  skeins = parseInt(skeins);
+
+  if (isNaN(skeins)) {
+    return 'Please enter a valid # of skeins.';
+  } else if (skeins <= 0) {
+    return '# skeins must be greater than 0.';
+  } else if (skeins >= 1000) {
+    return '# skeins must be less than 1,000.';
+  } else {
+    return '';
+  }
+
+}
+
+export { makeValidSkeinsOwned, autofilledThreadToID, skeinNumToErrMsg };

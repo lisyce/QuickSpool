@@ -73,7 +73,13 @@ def user_threads(request):
         owned = UserThread.objects.filter(owner__id=int(request.data['owner']), 
                                        thread_data__id=int(request.data['thread_data'])).first()
         if owned != None:
-            return HttpResponse(status=400) # user already owns this color
+            owned.skeins_owned = request.data['skeins_owned']
+            try:
+                owned.full_clean()
+                owned.save()
+                return HttpResponse(status=200)
+            except ValidationError as e:
+                return HttpResponse(status=400)
 
         serializer = UserThreadPostSerializer(data=request.data)
         if serializer.is_valid():

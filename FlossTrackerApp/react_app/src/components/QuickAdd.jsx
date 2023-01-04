@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import $ from 'jquery';
 import ThreadAutofillInput from './ThreadAutofillInput';
 
-import { makeValidSkeinsOwned, autofilledThreadToID } from '../utils/validators';
+import { makeValidSkeinsOwned, autofilledThreadToID, skeinNumToErrMsg } from '../utils/validators';
 import { getCsrfCookie } from '../utils/csrf-cookie'
 
 // don't let them add threads that already exist in their collection
@@ -15,24 +15,7 @@ function QuickAdd(props) {
   const [skeinText, setSkeinText] = useState('');
   const [searchValid, setSearchValid] = useState(true);
   const [skeinsValid, setSkeinsValid] = useState(true);
-
-  function skeinErrReducer(state, num) {
-    setSkeinsValid(false);
-
-    num = parseInt(num);
-    if (isNaN(num)) {
-      return 'Please enter a valid # of skeins.';
-    } else if (num <= 0) {
-      return '# skeins must be greater than 0.';
-    } else if (num >= 1000) {
-      return '# skeins must be less than 1,000.';
-    } else {
-      setSkeinsValid(true);
-      return '';
-    }
-  }
-
-  const [skeinErrText, setSkeinErrText] = useReducer(skeinErrReducer, 'Please enter a valid # of skeins.');
+  const [skeinErrText, setSkeinErrText] = useState('');
 
   // hook
   useEffect(() => {
@@ -65,6 +48,7 @@ function QuickAdd(props) {
       <form onSubmit={(event) => {
         // the state variables don't immediately update, so we must have this extra step
         let valid = true;
+        setSkeinsValid(true);
 
         // validate text
         let threadID;
@@ -78,13 +62,14 @@ function QuickAdd(props) {
 
         // validate skein number
         const num = event.target.skeins.value;
-        setSkeinErrText(num);
+        const err = skeinNumToErrMsg(num);
+        setSkeinErrText(err);
 
         // this is bad coding practice but don't tell anyone. state doesn't update until re-render and we need the answer now
-        // skeinErrReducer returns empty string if the skeins are valid
-        const err = skeinErrReducer({}, num);
-
-        if (err !== '') valid = false;
+        if (err !== '') {
+          valid = false;
+          setSkeinsValid(false);
+        }
 
         // stop form from submitting if invalid
         if (!valid) {
@@ -112,6 +97,9 @@ function QuickAdd(props) {
           console.log(textStatus + ', ' + requestError);
         });
 
+        // reset the form text on submit
+        setSkeinText('');
+        $('#search').val('');
       }}>
         <div className='row g-1 align-items-start'>
           <div className='col-12'>
