@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import $ from 'jquery';
 
 import { getCsrfCookie } from '../utils/csrf-cookie'
-import { makeValidSkeinsOwned } from '../utils/validators'
+import { makeValidSkeinsOwned, skeinNumToErrMsg } from '../utils/validators'
 
 import './thread-card.css';
 
@@ -14,26 +14,41 @@ function ThreadCard(props) {
 
   const [modalFormSkeins, setModalFormSkeins] = useState(props.skeins_owned);
   const [deleted, setDeleted] = useState(false);
+  const [skeinsValid, setSkeinsValid] = useState(true);
+  const [skeinErrText, setSkeinErrText] = useState('');
 
   const displayName = props.thread_data.brand.name + ' ' + props.thread_data.brand_number + ': ' + props.thread_data.name;
   const modalID = props.thread_data.brand.name + '-' + props.thread_data.brand_number;
 
   // reset the text field in the modal when it closes with an event listener
   useEffect(() => {
-    const id = 'floating-input-' + modalID;
+    const id = 'detail-thread-view-' + modalID;
 
     const modal = document.getElementById(id);
     modal.addEventListener('hidden.bs.modal', event => {
       setModalFormSkeins(props.skeins_owned);
+      console.log(modalFormSkeins);
     });
 
   }, []);
+
+  
+  $(`#floating-input-${modalID}`).removeAttr('aria-describedby');
+
+  let skeinsNumClasses = 'form-control';
+  let feedback = null;
+
+  if (!skeinsValid) {
+    skeinsNumClasses += ' is-invalid';
+    feedback = <div id='invalid-skeins' className='invalid-feedback'>{skeinErrText}</div>
+    $(`#floating-input-${modalID}`).attr('aria-describedby', 'invalid-skeins');
+  }
 
   return (
     <>
     <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
       <h5 className='threadcard-header threadcard-header-responsive my-auto'>{displayName}</h5>
-      <span className='position-relative btn swatch my-auto me-3' style={swatchStyle}>&nbsp;
+      <span className='position-relative swatch my-auto me-3' style={swatchStyle}>&nbsp;
         <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.skeins_owned}</span>
       </span>
     </a>
@@ -53,42 +68,54 @@ function ThreadCard(props) {
                 <div className='col-12 col-lg-6'>
                   <div className='modal-swatch' style={swatchStyle}>&nbsp;</div>
 
-                    <form onSubmit={() => {
+                    <form onSubmit={(event) => {
 
                       if (!deleted) {
-                        const validatedSkeins = makeValidSkeinsOwned($('#floating-input-' + modalID).val());
 
-                        const csrfToken = getCsrfCookie();
-  
-                        $.ajax({
-                          url: '/api/user-threads/' + props.pk,
-                          type: 'PATCH',
-                          headers: {
-                            'Content-type': 'application/json',
-                            'X-CSRFToken': csrfToken
-                          },
-                          data: JSON.stringify({
-                            skeins_owned: validatedSkeins,
-                          })
+                      // validate skein number
+                      const num = event.target.skeins.value;
+                      const err = skeinNumToErrMsg(num);
+                      setSkeinErrText(err);
+
+                      if (err !== '') {
+                        setSkeinsValid(false);
+                        event.preventDefault();
+                        return false;
+
+                      } else setSkeinsValid(true);
+
+                      const validatedSkeins = makeValidSkeinsOwned(event.target.skeins.value);
+
+                      const csrfToken = getCsrfCookie();
+
+                      $.ajax({
+                        url: '/api/user-threads/' + props.pk,
+                        type: 'PATCH',
+                        headers: {
+                          'Content-type': 'application/json',
+                          'X-CSRFToken': csrfToken
+                        },
+                        data: JSON.stringify({
+                          skeins_owned: validatedSkeins,
                         })
-                        .fail((jqxhr, textStatus, requestError) => {
-                          console.log(textStatus + ', ' + requestError);
-                        });
-                      }
+                      })
+                      .fail((jqxhr, textStatus, requestError) => {
+                        console.log(textStatus + ', ' + requestError);
+                      });
+                    }
                       
                     }}>
                       <div className='flex-row d-flex'>
                         <div className='col-10 d-flex'>
                           <div className='input-group my-2'>
                             <div className='form-floating'>
-                              <input type='text' id={'floating-input-' + modalID} className='form-control' placeholder='1.00' value={modalFormSkeins} pattern='(^\d{0,3}\.{0,1}$)|(^\d{0,3}\.\d*$)' onChange={(event) => {
+                              <input type='text' name='skeins' id={'floating-input-' + modalID} className={skeinsNumClasses} placeholder='1.00' value={modalFormSkeins} onChange={(event) => {
                                 setModalFormSkeins(event.target.value);
                               }}>
                               </input>
                             
                               <label for={'floating-input-' + modalID}>Skeins Owned</label>
                             </div>
-
                             <button type='submit' className='btn btn-outline-secondary'>Update</button>
                           </div>
                         </div>
@@ -115,7 +142,9 @@ function ThreadCard(props) {
                             <i class="trash bi bi-trash3"></i>
                           </button>
                         </div>
+                    
                       </div>                  
+                      {feedback}
 
                   </form>
 
