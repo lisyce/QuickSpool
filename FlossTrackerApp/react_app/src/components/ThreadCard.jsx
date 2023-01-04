@@ -27,6 +27,7 @@ function ThreadCard(props) {
     const modal = document.getElementById(id);
     modal.addEventListener('hidden.bs.modal', event => {
       setModalFormSkeins(props.skeins_owned);
+      setSkeinsValid(true);
       console.log(modalFormSkeins);
     });
 
