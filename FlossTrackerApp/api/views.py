@@ -73,13 +73,7 @@ def user_threads(request):
         owned = UserThread.objects.filter(owner__id=int(request.data['owner']), 
                                        thread_data__id=int(request.data['thread_data'])).first()
         if owned != None:
-            owned.skeins_owned = request.data['skeins_owned']
-            try:
-                owned.full_clean()
-                owned.save()
-                return HttpResponse(status=200)
-            except ValidationError as e:
-                return HttpResponse(status=400)
+            return HttpResponse('User already owns this thread color', status=400)
 
         serializer = UserThreadPostSerializer(data=request.data)
         if serializer.is_valid():
@@ -87,7 +81,6 @@ def user_threads(request):
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=400)
-        
 
     else:
         return HttpResponse(status=405); # method not allowed
@@ -117,7 +110,7 @@ def user_thread_detail(request, pk):
             user_thread.save()
             return HttpResponse(status=200)
         except ValidationError as e:
-            return HttpResponse(status=400)
+            return HttpResponse('invalid number for skeins_owned', status=400)
 
     # delete the specified user thread
     elif request.method == 'DELETE':
