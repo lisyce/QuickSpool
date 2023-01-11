@@ -29,6 +29,23 @@ class UserThreadGetSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth = 2
 
+# used to just get the ThreadColor data
+class UserThreadColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserThread
+        fields = ['thread_data', 'skeins_owned']
+        depth = 2
+    
+    def to_representation(self, instance):
+        nested = super().to_representation(instance)
+        data = {
+            "userthread_id": instance.id,
+            "skeins_owned": f'{instance.skeins_owned:.2f}'
+            }
+        for k, v in nested['thread_data'].items():
+            data[k] = v
+        return data
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

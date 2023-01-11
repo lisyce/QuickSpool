@@ -12,7 +12,7 @@ function ThreadCard(props) {
     backgroundColor: '#' + swatchHex
   };
 
-  const [modalFormSkeins, setModalFormSkeins] = useState(props.skeins_owned);
+  const [modalFormSkeins, setModalFormSkeins] = useState(props.thread_data.skeins_owned);
   const [deleted, setDeleted] = useState(false);
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
@@ -26,9 +26,8 @@ function ThreadCard(props) {
 
     const modal = document.getElementById(id);
     modal.addEventListener('hidden.bs.modal', event => {
-      setModalFormSkeins(props.skeins_owned);
+      setModalFormSkeins(props.thread_data.skeins_owned);
       setSkeinsValid(true);
-      console.log(modalFormSkeins);
     });
 
   }, []);
@@ -50,7 +49,7 @@ function ThreadCard(props) {
     <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
       <h5 className='threadcard-header threadcard-header-responsive my-auto'>{displayName}</h5>
       <span className='position-relative swatch my-auto me-3' style={swatchStyle}>&nbsp;
-        <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.skeins_owned}</span>
+        <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.thread_data.skeins_owned}</span>
       </span>
     </a>
 
@@ -90,7 +89,7 @@ function ThreadCard(props) {
                       const csrfToken = getCsrfCookie();
 
                       $.ajax({
-                        url: '/api/user-threads/' + props.pk,
+                        url: '/api/user-threads/' + props.thread_data.userthread_id,
                         type: 'PATCH',
                         headers: {
                           'Content-type': 'application/json',
@@ -98,6 +97,7 @@ function ThreadCard(props) {
                         },
                         data: JSON.stringify({
                           skeins_owned: validatedSkeins,
+                          action: 'replace'
                         })
                       })
                       .fail((jqxhr, textStatus, requestError) => {
@@ -129,7 +129,7 @@ function ThreadCard(props) {
                             const csrfToken = getCsrfCookie();
 
                             $.ajax({
-                              url: '/api/user-threads/' + props.pk,
+                              url: '/api/user-threads/' + props.thread_data.userthread_id,
                               type: 'DELETE',
                               headers: {
                                 'Content-type': 'application/json',

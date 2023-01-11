@@ -1,3 +1,5 @@
+from decimal import *
+
 from django.http import HttpResponse
 from django.db.models import Q
 from django.core.exceptions import ValidationError
@@ -56,6 +58,19 @@ def user_collection(request, pk):
         # get all the threads this user doesn't own
         threads = ThreadColor.objects.filter(~Q(userthread__owner=pk))
         serializer = ThreadColorSerializer(threads, many=True)
+    elif query['owned'] == 'all':
+        # get all threads and note whether they are owned or not
+        owned = UserThread.objects.filter(owner__id=pk)
+        owned_ser = UserThreadColorSerializer(owned, many=True)
+
+        unowned = ThreadColor.objects.filter(~Q(userthread__owner=pk))
+        unowned_ser = ThreadColorSerializer(unowned, many=True)
+
+        return Response({
+            "owned": owned_ser.data,
+            "unowned": unowned_ser.data
+        })
+
     else:
         return HttpResponse(status=400)
     return Response(serializer.data)
@@ -71,7 +86,7 @@ def user_threads(request):
     elif request.method == 'POST':
         # check to see if the user already owns this color
         owned = UserThread.objects.filter(owner__id=int(request.data['owner']), 
-                                       thread_data__id=int(request.data['thread_data'])).first()
+                                          thread_data__id=int(request.data['thread_data'])).first()
         if owned != None:
             return HttpResponse('User already owns this thread color', status=400)
 
@@ -103,8 +118,18 @@ def user_thread_detail(request, pk):
         if request.data['skeins_owned'] == None:
             return HttpResponse(status=400)
 
-        user_thread = UserThread.objects.get(id=pk)
-        user_thread.skeins_owned = request.data['skeins_owned']
+        try:
+            user_thread = UserThread.objects.get(id=pk)
+        except UserThread.DoesNotExist as e:
+            return HttpResponse(status=404)
+        
+        if request.data['action'] == 'replace':
+            user_thread.skeins_owned = request.data['skeins_owned']
+        elif request.data['action'] == 'add':
+            user_thread.skeins_owned = user_thread.skeins_owned + Decimal(request.data['skeins_owned'])
+        else:
+            return HttpResponse('invalid action for skeins owned', status=400)
+
         try:
             user_thread.full_clean()
             user_thread.save()
