@@ -54,7 +54,7 @@ function Collection (props) {
 
             <div className='col-12 order-first order-lg-0 col-lg-4 mb-3'>
               <div className='container-fluid'>
-                <h3>Quick Add</h3>
+                <h3 style={{display: isLoaded ? 'block' : 'none'}}>Quick Add</h3>
                 <QuickAdd user_id={props.user_id} allColors={allColors} unownedColors={unownedColors} isLoaded={isLoaded} />
               </div>
             </div>
