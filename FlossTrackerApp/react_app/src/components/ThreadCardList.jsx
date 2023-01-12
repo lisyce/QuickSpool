@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ThreadCard from './ThreadCard';
+import LoadingThreadCard from './LoadingThreadCard';
 
 // props are going to be the name of the user
 function ThreadCardList(props) {
@@ -20,7 +21,11 @@ function ThreadCardList(props) {
 
     return <div className='list-group list-group-flush'>{threadCards}</div>;
   }
-  return <h1>Loading...</h1>; // TODO make this more attractive
+  return <>
+    <LoadingThreadCard headingWidth='40%'/>
+    <LoadingThreadCard headingWidth='60%'/>
+    <LoadingThreadCard headingWidth='50%'/>
+  </>
 
 }
 
