@@ -1,0 +1,8 @@
+#swatch {
+    width: 20%;
+    background-color: white;
+}
+
+.bi-x-lg {
+    color: var(--bs-danger);
+}

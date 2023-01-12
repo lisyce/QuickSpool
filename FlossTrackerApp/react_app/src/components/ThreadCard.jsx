@@ -140,7 +140,7 @@ function ThreadCard(props) {
                               console.log(textStatus + ', ' + requestError);
                             });
                           }}>
-                            <i class="trash bi bi-trash3"></i>
+                            <i class="trash bi-trash3"></i>
                           </button>
                         </div>
                     

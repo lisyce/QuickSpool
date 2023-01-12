@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 import ThreadAutofillInput from './ThreadAutofillInput';
 
@@ -9,9 +9,7 @@ import { getCsrfCookie } from '../utils/csrf-cookie'
 function QuickAdd(props) {
 
   // state
-
   const [skeinText, setSkeinText] = useState('');
-  const [searchValid, setSearchValid] = useState(true);
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
 
@@ -38,9 +36,7 @@ function QuickAdd(props) {
         let thread;
         try {
           thread = autofilledThreadToObj(event.target.thread.value, props.allColors);
-          setSearchValid(true);
         } catch (error) {
-          setSearchValid(false);
           valid = false;
         }
 
@@ -107,7 +103,7 @@ function QuickAdd(props) {
         <div className='row g-1 align-items-start'>
           <div className='col-12'>
             <label for='search' className='form-label'>Thread Color</label>
-            <ThreadAutofillInput data={props.allColors} valid={searchValid}/>
+            <ThreadAutofillInput data={props.allColors} />
           </div>
 
           <div className='col-12 col-sm-9 mt-2'>
