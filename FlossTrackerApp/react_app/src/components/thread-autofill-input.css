@@ -6,3 +6,7 @@
 .bi-x-lg {
     color: var(--bs-danger);
 }
+
+.invalid-border {
+    border-color: var(--bs-danger);
+}

@@ -22,10 +22,12 @@ function ThreadAutofillInput(props) {
     $('#search').attr('aria-describedby', 'invalid-thread');
 
     $('#swatch').css('background-color', 'white');
+    $('#swatch').addClass('invalid-border');
     $('#swatch').html('<i class=\'bi-x-lg\'></i>');
   } else {
     $('#swatch').html('&nbsp;');
     if (selectedThread != null) {
+      $('#swatch').removeClass('invalid-border');
       $('#swatch').css('background-color', `#${selectedThread.hex_value}`);
     }
   }

@@ -30,7 +30,6 @@ function QuickAdd(props) {
       <form onSubmit={(event) => {
         // the state variables don't immediately update, so we must have this extra step
         let valid = true;
-        setSkeinsValid(true);
 
         // validate text
         let thread;
@@ -40,16 +39,7 @@ function QuickAdd(props) {
           valid = false;
         }
 
-        // validate skein number
-        const num = event.target.skeins.value;
-        const err = skeinNumToErrMsg(num);
-        setSkeinErrText(err);
-
-        // this is bad coding practice but don't tell anyone. state doesn't update until re-render and we need the answer now
-        if (err !== '') {
-          valid = false;
-          setSkeinsValid(false);
-        }
+        if (!skeinsValid) valid = false;
 
         // stop form from submitting if invalid
         if (!valid) {
@@ -110,7 +100,18 @@ function QuickAdd(props) {
             <label for='skeins-number' className='form-label'># Skeins</label>
             <input id='skeins-number' type='text' name='skeins' className={skeinsNumClasses}
             required autocomplete='off' placeholder='1.5' value={skeinText} onChange={(event) => {
-              setSkeinText(event.target.value);
+              const text = event.target.value;
+
+              setSkeinText(text);
+
+              const err = skeinNumToErrMsg(text);
+              setSkeinErrText(err);
+      
+              if (err !== '') {
+                setSkeinsValid(false);
+              } else {
+                setSkeinsValid(true);
+              }
             }}></input>
             {feedback}
           </div>
