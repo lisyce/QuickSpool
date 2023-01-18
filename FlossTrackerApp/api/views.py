@@ -11,19 +11,6 @@ from .models import *
 from .serializers import *
 
 @api_view(['GET'])
-def api_overview(request):
-    api_urls = {
-        'All Thread Colors' : '/thread-colors',
-        'Thread Color Detail' : '/thread-colors/<int:pk>',
-        'All User Threads' : '/user-threads',
-        'User Collection' : '/user-threads?user=<int:user_pk>',
-        'User Thread Detail' : '/user-threads/<int:pk>',
-        'User Detail' : '/users/<int:pk>',
-    }
-
-    return Response(api_urls)
-
-@api_view(['GET'])
 def thread_colors(request):
     thread_colors = ThreadColor.objects.all()
     serializer = ThreadColorSerializer(thread_colors, many=True)
@@ -31,7 +18,10 @@ def thread_colors(request):
 
 @api_view(['GET'])
 def thread_color_detail(request, pk):
-    thread_color = ThreadColor.objects.get(id=pk)
+    try:
+        thread_color = ThreadColor.objects.get(id=pk)
+    except:
+        return HttpResponse(status=404)
     serializer = ThreadColorSerializer(thread_color, many=False)
     return Response(serializer.data)
 
@@ -43,13 +33,23 @@ def users(request):
 
 @api_view(['GET'])
 def user_detail(request, pk):
-    user = User.objects.get(id=pk)
+    try:
+        user = User.objects.get(id=pk)
+    except:
+        return HttpResponse(status=404)
+    
     seralizer = UserSerializer(user, many=False)
     return Response(seralizer.data)
 
 @api_view(['GET'])
 def user_collection(request, pk):
-    query = request.GET.dict() # get query params
+    # make sure the User exists
+    try:
+        User.objects.get(id=pk)
+    except:
+        return HttpResponse(status=404)
+
+    query = request.GET.dict() # get query params as dict
 
     if 'owned' not in query or query['owned'] == 'true':
         threads = UserThread.objects.filter(owner__id=pk)
@@ -106,8 +106,9 @@ def user_thread_detail(request, pk):
 
     # return the data for the user thread
     if request.method == 'GET':
-        user_thread = UserThread.objects.get(id=pk)
-        if user_thread == None:
+        try:
+            user_thread = UserThread.objects.get(id=pk)
+        except:
             return HttpResponse(status=404)
 
         serializer = UserThreadGetSerializer(user_thread, many=False)
@@ -120,7 +121,7 @@ def user_thread_detail(request, pk):
 
         try:
             user_thread = UserThread.objects.get(id=pk)
-        except UserThread.DoesNotExist as e:
+        except:
             return HttpResponse(status=404)
         
         if request.data['action'] == 'replace':
@@ -139,7 +140,10 @@ def user_thread_detail(request, pk):
 
     # delete the specified user thread
     elif request.method == 'DELETE':
-        user_thread = UserThread.objects.get(id=pk)
+        try:
+            user_thread = UserThread.objects.get(id=pk)
+        except:
+            return HttpResponse(status=404)
         user_thread.delete()
         return HttpResponse(status=200)
 

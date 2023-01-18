@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView
 
 urlpatterns = [
     # TODO make a robots.txt url and do the robots.txt

@@ -1,9 +1,8 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    path('', views.api_overview, name='api-overview'),
-
     path('thread-colors/', views.thread_colors, name='thread-colors'),
     path('thread-colors/<int:pk>', views.thread_color_detail, name='thread-color'),
 
