@@ -1,5 +1,4 @@
-# [WIP] An App to Track Your Embroidery Floss
-###### (Catchy name in progress)
+# [WIP] QuickSpool: An App to Track Your Embroidery Floss
 
 ## About
 
