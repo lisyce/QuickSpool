@@ -1,16 +1,12 @@
 # API Documentation
 
-# Overview
-
-TODO
-
 # Thread Colors
 
 ## :pushpin: Get All Thread Colors
 
 Get all `ThreadColors` in the database.
 
-> **URL:** /api/thread-colors
+> **URL:** `/api/thread-color`
 >
 > **Method:** `GET`
 
@@ -188,7 +184,7 @@ Get a `UserThread` by its primary key.
 
 > **Code:** `404 NOT FOUND`
 
-### Update User Thread Skeins Owned
+## :pushpin: Update User Thread Skeins Owned
 
 > **URL:** `/api/user-threads/:pk`
 >
@@ -371,6 +367,28 @@ Note that the `owned` set of threads includes the corresponding skeins owned and
         "name": "Apple Green Pale",
         "brand_number": "14",
         "hex_value": "D0FBB2",
+        "brand": {
+            "id": 1,
+            "name": "DMC"
+        }
+    }
+]
+```
+
+
+### Successful Response (`owned=true`)
+
+**Content Example**
+
+```json
+[
+    {
+        "userthread_id": 11,
+        "skeins_owned": "3.00",
+        "id": 2,
+        "name": "Eggplant",
+        "brand_number": "29",
+        "hex_value": "674076",
         "brand": {
             "id": 1,
             "name": "DMC"
