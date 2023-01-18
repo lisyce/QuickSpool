@@ -6,7 +6,124 @@ TODO
 
 # Thread Colors
 
+## :pushpin: Get All Thread Colors
+
+Get all `ThreadColors` in the database.
+
+> **URL:** /api/thread-colors
+>
+> **Method:** `GET`
+
+### Successful Response
+
+> **Code:** `200 OK`
+
+**Content Example**
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Apple Green Pale",
+        "brand_number": "14",
+        "hex_value": "D0FBB2",
+        "brand": {
+            "id": 1,
+            "name": "DMC"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Eggplant",
+        "brand_number": "29",
+        "hex_value": "674076",
+        "brand": {
+            "id": 1,
+            "name": "DMC"
+        }
+    }
+]
+```
+
+### Error Response
+
+> **Code:** `500 INTERNAL SERVER ERROR`
+
+## :pushpin: Get Thread Color by PK
+
+Get a `ThreadColor` by its primary key.
+
+> **URL:** `/api/thread-colors/:pk`
+>
+> **Method:** `GET`
+>
+> **URL Params:** `pk=[int]` where `pk` is the `id` of the `ThreadColor`.
+
+### Successful Response
+
+> **Code:** `200 OK`
+
+**Content Example** 
+
+```json
+{
+    "id": 1,
+    "name": "Apple Green Pale",
+    "brand_number": "14",
+    "hex_value": "D0FBB2",
+    "brand": {
+        "id": 1,
+        "name": "DMC"
+    }
+}
+```
+
+### Error Response
+
+> **Code:** `404 NOT FOUND`
+
 # User Threads
+
+## :pushpin: Get All User Threads
+
+Get all `UserThreads` in the database.
+
+> **URL:** `/api/user-threads`
+>
+> **Method:** `GET`
+
+### Successful Response
+
+> **Code:** `200 OK`
+
+**Content Example**
+
+The `owner` key corresponds to the `id` of the `User` who owns this `UserThread`.
+
+```json
+[
+    {
+        "id": 11,
+        "owner": 2,
+        "skeins_owned": "3.00",
+        "thread_data": {
+            "id": 2,
+            "name": "Eggplant",
+            "brand_number": "29",
+            "hex_value": "674076",
+            "brand": {
+                "id": 1,
+                "name": "DMC"
+            }
+        }
+    }
+]
+```
+
+### Error Response
+
+> **Code:** `500 INTERNAL SERVER ERROR`
+
 
 # Users
 
@@ -20,7 +137,7 @@ Get all registered `Users`.
 
 ### Successful Response
 
->**Code:** `200 OK`
+> **Code:** `200 OK`
 
 **Content Example**
 
@@ -104,6 +221,8 @@ Get all threads this `User` has or does not have in their collection.
 
 > **Code:** `200 OK`
 
+**Content Example**
+
 Note that the `owned` set of threads includes the corresponding skeins owned and `UserThread` id.
 
 ```json
@@ -138,6 +257,8 @@ Note that the `owned` set of threads includes the corresponding skeins owned and
 ```
 
 ### Successful Response (`owned=false`)
+
+**Content Example**
 
 ```json
 [
