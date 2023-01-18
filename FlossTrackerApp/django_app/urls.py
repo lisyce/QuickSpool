@@ -23,6 +23,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
 
     path('manifest.json', TemplateView.as_view(template_name='manifest.json')),
-    path('favicon.svg', TemplateView.as_view(template_name='favicon.svg')),
+    # path('favicon.svg', TemplateView.as_view(template_name='favicon.svg')),
     path('collection/', TemplateView.as_view(template_name='index.html'))
 ]
