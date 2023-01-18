@@ -4,15 +4,13 @@
 
 TODO
 
-# Endpoints
+# Thread Colors
 
-## Thread Colors
+# User Threads
 
-## User Threads
+# Users
 
-## Users
-
-### Get All Users
+## :pushpin: Get All Users
 
 Get all registered `Users`.
 
@@ -20,7 +18,7 @@ Get all registered `Users`.
 
 **Method:** `GET`
 
-###### Successful Response
+### Successful Response
 
 **Code:** `200 OK`
 
@@ -46,11 +44,11 @@ Get all registered `Users`.
 ]
 ```
 
-###### Error Response
+### Error Response
 
 **Code:** `500 INTERNAL SERVER ERROR`
 
-### Get User by PK
+## :pushpin: Get User by PK
 
 Get a `User` by its primary key.
 
@@ -60,7 +58,7 @@ Get a `User` by its primary key.
 
 **URL Params:** `pk=[int]` where `pk` is the `id` of the `User`.
 
-###### Successful Response
+### Successful Response
 
 **Code:** `200 OK`
 
@@ -86,11 +84,11 @@ Get a `User` by its primary key.
 ]
 ```
 
-###### Error Response
+### Error Response
 
 **Code:** `404 NOT FOUND`
 
-### Get a User's Collection
+## :pushpin: Get a User's Collection
 
 Get all threads this `User` has or does not have in their collection.
 
@@ -102,7 +100,7 @@ Get all threads this `User` has or does not have in their collection.
 
 **Query Params:** `owned=[str]` where `owned` is either `true`, `false`, or `all`.
 
-###### Successful Response (`owned=all`)
+### Successful Response (`owned=all`)
 
 Note that the `owned` set of threads includes the corresponding skeins owned and `UserThread` id.
 
@@ -137,7 +135,7 @@ Note that the `owned` set of threads includes the corresponding skeins owned and
 }
 ```
 
-###### Successful Response (`owned=false`)
+### Successful Response (`owned=false`)
 
 ```json
 [
@@ -154,7 +152,7 @@ Note that the `owned` set of threads includes the corresponding skeins owned and
 ]
 ```
 
-###### Error Response
+### Error Response
 
 **Invalid `owned` query param:** `400 BAD REQUEST`
 
