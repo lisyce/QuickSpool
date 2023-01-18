@@ -124,6 +124,110 @@ The `owner` key corresponds to the `id` of the `User` who owns this `UserThread`
 
 > **Code:** `500 INTERNAL SERVER ERROR`
 
+## :pushpin: Create New User Thread
+
+Add a new `UserThread` to the database.
+
+> **URL:** `/api/user-threads/`
+>
+> **Method:** `POST`
+
+### Example Request Body
+
+```json
+{
+    "owner": 2,
+    "thread_data": 1,
+    "skeins_owned": "3.20"
+}
+```
+
+### Successful Response
+
+> **Code:** `201 CREATED`
+
+### Error Response
+
+> **Code:** `400 BAD REQUEST`
+
+## :pushpin: Get User Thread by PK
+
+Get a `UserThread` by its primary key.
+
+> **URL:** `/api/user-threads/:pk`
+>
+> **Method:** `GET`
+>
+> **URL Params:** `pk=[int]` where `pk` is the `id` of the `UserThread`.
+
+### Successful Response
+
+> **Code:** `200 OK`
+
+**Content Example** 
+
+```json
+{
+    "id": 13,
+    "owner": 2,
+    "skeins_owned": "1.00",
+    "thread_data": {
+        "id": 3,
+        "name": "Celadon Green Med",
+        "brand_number": "163",
+        "hex_value": "4D8361",
+        "brand": {
+            "id": 1,
+            "name": "DMC"
+        }
+    }
+}
+```
+
+### Error Response
+
+> **Code:** `404 NOT FOUND`
+
+### Update User Thread Skeins Owned
+
+> **URL:** `/api/user-threads/:pk`
+>
+> **Method:** `PATCH`
+
+### Example Request Body
+
+`action` may be one of `"add"` or `"replace"`. `"add"` increments the existing skeins owned for this color. `"replace"` completely replaces the existing skeins owned for this color.
+
+```json
+{
+    "skeins_owned": "4.50",
+    "action": "replace"
+}
+```
+
+### Successful Response
+
+> **Code:** `200 OK`
+
+### Error Response
+
+> **Code:** `400 BAD REQUEST`
+
+## :pushpin: Delete User Thread
+
+> **URL:** `/api/user-threads/:pk`
+>
+> **Method:** `DELETE`
+>
+> **URL Params:** `pk=[int]` where `pk` is the `id` of the `UserThread`.
+
+### Successful Response
+
+> **Code:** `200 OK`
+
+### Error Response
+
+> **Code:** `404 NOT FOUND`
 
 # Users
 

@@ -116,7 +116,7 @@ def user_thread_detail(request, pk):
 
     # update existing user thread skeins owned
     elif request.method == 'PATCH':
-        if request.data['skeins_owned'] == None:
+        if 'skeins_owned' not in request.data or 'action' not in request.data:
             return HttpResponse(status=400)
 
         try:
