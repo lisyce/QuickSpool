@@ -14,13 +14,13 @@ TODO
 
 Get all registered `Users`.
 
-**URL:** `/api/users`
-
-**Method:** `GET`
+> **URL:** `/api/users`
+>
+> **Method:** `GET`
 
 ### Successful Response
 
-**Code:** `200 OK`
+>**Code:** `200 OK`
 
 **Content Example**
 
@@ -46,21 +46,21 @@ Get all registered `Users`.
 
 ### Error Response
 
-**Code:** `500 INTERNAL SERVER ERROR`
+> **Code:** `500 INTERNAL SERVER ERROR`
 
 ## :pushpin: Get User by PK
 
 Get a `User` by its primary key.
 
-**URL:** `/api/users/:pk`
-
-**Method:** `GET`
-
-**URL Params:** `pk=[int]` where `pk` is the `id` of the `User`.
+> **URL:** `/api/users/:pk`
+>
+> **Method:** `GET`
+>
+> **URL Params:** `pk=[int]` where `pk` is the `id` of the `User`.
 
 ### Successful Response
 
-**Code:** `200 OK`
+> **Code:** `200 OK`
 
 **Content Example** 
 
@@ -86,21 +86,23 @@ Get a `User` by its primary key.
 
 ### Error Response
 
-**Code:** `404 NOT FOUND`
+> **Code:** `404 NOT FOUND`
 
 ## :pushpin: Get a User's Collection
 
 Get all threads this `User` has or does not have in their collection.
 
-**URL:** `/api/users/:pk/collection`
-
-**Method:** `GET`
-
-**URL Params:** `pk=[int]` where `pk` is the `id` of the `User`.
-
-**Query Params:** `owned=[str]` where `owned` is either `true`, `false`, or `all`.
+> **URL:** `/api/users/:pk/collection`
+> 
+> **Method:** `GET`
+> 
+> **URL Params:** `pk=[int]` where `pk` is the `id` of the `User`.
+> 
+> **Query Params:** `owned=[str]` where `owned` is either `true`, `false`, or `all`.
 
 ### Successful Response (`owned=all`)
+
+> **Code:** `200 OK`
 
 Note that the `owned` set of threads includes the corresponding skeins owned and `UserThread` id.
 
@@ -154,6 +156,6 @@ Note that the `owned` set of threads includes the corresponding skeins owned and
 
 ### Error Response
 
-**Invalid `owned` query param:** `400 BAD REQUEST`
-
-**Invalid `:pk` URL param:** `404 NOT FOUND`
+> **Invalid `owned` query param:** `400 BAD REQUEST`
+> 
+> **Invalid `:pk` URL param:** `404 NOT FOUND`
