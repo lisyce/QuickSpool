@@ -8,7 +8,7 @@ function ThreadCardList(props) {
 
   // TODO if the user has no threads, display something to prompt them to add threads to their collection
   if (props.isLoaded) {
-    const allThreads = props.threadDatas.sort((a, b) => {
+    const allThreads = props.threadColors.sort((a, b) => {
       if (b.brand.name === a.brand.name) {
         return parseInt(a.brand_number) - parseInt(b.brand_number);
       }
@@ -16,7 +16,7 @@ function ThreadCardList(props) {
     });
 
     const threadCards = allThreads.map((thread) =>
-      <ThreadCard thread_data={thread} />
+      <ThreadCard thread_color={thread} />
     );
 
     return <div className='list-group list-group-flush'>{threadCards}</div>;

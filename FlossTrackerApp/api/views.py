@@ -85,12 +85,14 @@ def user_threads(request):
     # create a new user thread
     elif request.method == 'POST':
         # check to see if the user already owns this color
-        owned = UserThread.objects.filter(owner__id=int(request.data['owner']), 
-                                          thread_data__id=int(request.data['thread_data'])).first()
+        owned = UserThread.objects.filter(owner__id=int(request.data['owner_id']), 
+                                          thread_color__id=int(request.data['thread_color_id'])).first()
         if owned != None:
             return HttpResponse('User already owns this thread color', status=400)
 
-        serializer = UserThreadPostSerializer(data=request.data)
+        data = request.data
+        serializer = UserThreadPostSerializer(data={'owner': data['owner_id'], 
+                                             'thread_color': data['thread_color_id'], 'skeins_owned': data['skeins_owned']})
         if serializer.is_valid():
             serializer.save()
             return HttpResponse(status=201)

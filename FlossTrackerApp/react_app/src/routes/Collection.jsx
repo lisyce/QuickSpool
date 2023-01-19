@@ -49,7 +49,7 @@ function Collection (props) {
             </div>
 
             <div className='col-12 col-lg-4 mb-3'>
-              <ThreadCardList threadDatas={ownedColors} isLoaded={isLoaded} /> 
+              <ThreadCardList threadColors={ownedColors} isLoaded={isLoaded} /> 
             </div>
 
             <div className='col-12 order-first order-lg-0 col-lg-4 mb-3'>

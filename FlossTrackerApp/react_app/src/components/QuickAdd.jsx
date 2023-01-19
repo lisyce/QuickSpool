@@ -60,8 +60,8 @@ function QuickAdd(props) {
               'X-CSRFToken': csrfToken
             },
             data: JSON.stringify({
-              owner: props.user_id,
-              thread_data: thread.id,
+              owner_id: props.user_id,
+              thread_color_id: thread.id,
               skeins_owned: skeins
             })
           })

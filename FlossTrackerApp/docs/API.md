@@ -6,7 +6,7 @@
 
 Get all `ThreadColors` in the database.
 
-> **URL:** `/api/thread-color`
+> **URL:** `/api/thread-colors/`
 >
 > **Method:** `GET`
 
@@ -100,9 +100,9 @@ The `owner` key corresponds to the `id` of the `User` who owns this `UserThread`
 [
     {
         "id": 11,
-        "owner": 2,
+        "owner_id": 2,
         "skeins_owned": "3.00",
-        "thread_data": {
+        "thread_color": {
             "id": 2,
             "name": "Eggplant",
             "brand_number": "29",
@@ -132,8 +132,8 @@ Add a new `UserThread` to the database.
 
 ```json
 {
-    "owner": 2,
-    "thread_data": 1,
+    "owner_id": 2,
+    "thread_color_id": 1,
     "skeins_owned": "3.20"
 }
 ```
@@ -165,9 +165,9 @@ Get a `UserThread` by its primary key.
 ```json
 {
     "id": 13,
-    "owner": 2,
+    "owner_id": 2,
     "skeins_owned": "1.00",
-    "thread_data": {
+    "thread_color": {
         "id": 3,
         "name": "Celadon Green Med",
         "brand_number": "163",
@@ -245,18 +245,13 @@ Get all registered `Users`.
 [
     {
         "id": 1,
-        "password": "encrypted-password",
-        "last_login": "2022-12-28T19:31:11.298576Z",
-        "is_superuser": true,
         "username": "admin",
-        "first_name": "Barry",
-        "last_name": "Admin",
-        "email": "b.admin@quickspool.com",
-        "is_staff": true,
-        "is_active": true,
-        "date_joined": "2022-10-26T18:49:11.865097Z",
-        "groups": [],
-        "user_permissions": []
+        "is_superuser": true
+    },
+    {
+        "id": 2,
+        "username": "test",
+        "is_superuser": false
     }
 ]
 ```
@@ -285,18 +280,8 @@ Get a `User` by its primary key.
 [
     {
         "id": 1,
-        "password": "encrypted-password",
-        "last_login": "2022-12-28T19:31:11.298576Z",
-        "is_superuser": true,
         "username": "admin",
-        "first_name": "Barry",
-        "last_name": "Admin",
-        "email": "b.admin@quickspool.com",
-        "is_staff": true,
-        "is_active": true,
-        "date_joined": "2022-10-26T18:49:11.865097Z",
-        "groups": [],
-        "user_permissions": []
+        "is_superuser": true
     }
 ]
 ```

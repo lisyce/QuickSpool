@@ -32,14 +32,14 @@ class UserThread(models.Model):
     class Meta:
         verbose_name_plural = 'User Threads'
         constraints = [
-            models.UniqueConstraint(fields=['thread_data', 'owner'], name='unique_user_thread')
+            models.UniqueConstraint(fields=['thread_color', 'owner'], name='unique_user_thread')
         ]
 
-    thread_data = models.ForeignKey(ThreadColor, on_delete=models.PROTECT)
+    thread_color = models.ForeignKey(ThreadColor, on_delete=models.PROTECT)
     owner = models.ForeignKey(auth_models.User, on_delete=models.CASCADE)
     skeins_owned = models.DecimalField(max_digits=5, decimal_places=2, default=-1.0, validators=[
         MinValueValidator(0), MaxValueValidator(999.99)
     ])
 
     def __str__(self):
-        return "[{}] {} ({} skeins)".format(str(self.owner), str(self.thread_data), self.skeins_owned)    
+        return "[{}] {} ({} skeins)".format(str(self.owner), str(self.thread_color), self.skeins_owned)    
