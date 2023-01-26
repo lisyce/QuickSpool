@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Navbar from '../components/Navbar';
 
 import ThreadCardList from '../components/ThreadCardList';
+import LoadingThreadCard from '../components/LoadingThreadCard';
 import QuickAdd from '../components/QuickAdd';
 
 function Collection (props) {
@@ -16,7 +17,7 @@ function Collection (props) {
 
   // hook
   useEffect(() => {
-    $.getJSON(`../api/users/${props.user_id}/collection?owned=all`)
+    $.getJSON(`../api/users/${props.userId}/collection?owned=all`)
     .done((json) => {
 
       let owned = json.owned
@@ -38,9 +39,21 @@ function Collection (props) {
     setAllColors(unownedColors.concat(ownedColors));
   }, [ownedColors, unownedColors])
 
+  let threadCardList;
+  if (isLoaded) {
+    threadCardList = <ThreadCardList threadColors={ownedColors} />;
+  } else {
+    threadCardList = <>
+      <LoadingThreadCard headingWidth='40%'/>
+      <LoadingThreadCard headingWidth='60%'/>
+      <LoadingThreadCard headingWidth='50%'/>
+    </>
+  }
+
   return ( 
     <>
       <Navbar />
+
       <main>
         <div className='container-fluid px-5'>
           <div className='row'>
@@ -49,13 +62,17 @@ function Collection (props) {
             </div>
 
             <div className='col-12 col-lg-4 mb-3'>
-              <ThreadCardList threadColors={ownedColors} isLoaded={isLoaded} /> 
+              {threadCardList}
             </div>
 
             <div className='col-12 order-first order-lg-0 col-lg-4 mb-3'>
               <div className='container-fluid'>
-                <h3 style={{display: isLoaded ? 'block' : 'none'}}>Quick Add</h3>
-                <QuickAdd user_id={props.user_id} allColors={allColors} unownedColors={unownedColors} isLoaded={isLoaded} />
+
+                <div style={{display: isLoaded ? 'block' : 'none'}}>
+                  <h3>Quick Add</h3>
+                  <QuickAdd userId={props.userId} allColors={allColors} />
+                </div>
+
               </div>
             </div>
             

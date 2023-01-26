@@ -12,7 +12,7 @@ import Collection from './routes/Collection';
 const router = createBrowserRouter([
   {
     path: '/collection',
-    element: <Collection user_id='1' />
+    element: <Collection userId='1' />
   },
 ])
 

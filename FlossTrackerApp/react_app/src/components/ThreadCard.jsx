@@ -7,18 +7,18 @@ import { makeValidSkeinsOwned, skeinNumToErrMsg } from '../utils/validators'
 import './thread-card.css';
 
 function ThreadCard(props) {
-  const swatchHex = props.thread_color.hex_value;
+  const swatchHex = props.threadColor.hex_value;
   const swatchStyle = {
     backgroundColor: '#' + swatchHex
   };
 
-  const [modalFormSkeins, setModalFormSkeins] = useState(props.thread_color.skeins_owned);
+  const [modalFormSkeins, setModalFormSkeins] = useState(props.threadColor.skeins_owned);
   const [deleted, setDeleted] = useState(false);
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
 
-  const displayName = props.thread_color.brand.name + ' ' + props.thread_color.brand_number + ': ' + props.thread_color.name;
-  const modalID = props.thread_color.brand.name + '-' + props.thread_color.brand_number;
+  const displayName = props.threadColor.brand.name + ' ' + props.threadColor.brand_number + ': ' + props.threadColor.name;
+  const modalID = props.threadColor.brand.name + '-' + props.threadColor.brand_number;
 
   // reset the text field in the modal when it closes with an event listener
   useEffect(() => {
@@ -26,7 +26,7 @@ function ThreadCard(props) {
 
     const modal = document.getElementById(id);
     modal.addEventListener('hidden.bs.modal', event => {
-      setModalFormSkeins(props.thread_color.skeins_owned);
+      setModalFormSkeins(props.threadColor.skeins_owned);
       setSkeinsValid(true);
     });
 
@@ -49,7 +49,7 @@ function ThreadCard(props) {
     <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
       <h5 className='threadcard-header threadcard-header-responsive my-auto'>{displayName}</h5>
       <span className='position-relative swatch my-auto me-3' style={swatchStyle}>&nbsp;
-        <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.thread_color.skeins_owned}</span>
+        <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.threadColor.skeins_owned}</span>
       </span>
     </a>
 
@@ -89,7 +89,7 @@ function ThreadCard(props) {
                       const csrfToken = getCsrfCookie();
 
                       $.ajax({
-                        url: '/api/user-threads/' + props.thread_color.userthread_id,
+                        url: '/api/user-threads/' + props.threadColor.userthread_id,
                         type: 'PATCH',
                         headers: {
                           'Content-type': 'application/json',
@@ -129,7 +129,7 @@ function ThreadCard(props) {
                             const csrfToken = getCsrfCookie();
 
                             $.ajax({
-                              url: '/api/user-threads/' + props.thread_color.userthread_id,
+                              url: '/api/user-threads/' + props.threadColor.userthread_id,
                               type: 'DELETE',
                               headers: {
                                 'Content-type': 'application/json',
