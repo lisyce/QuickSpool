@@ -20,7 +20,7 @@
 - **`allColors`**: an array of `ThreadColors` or `UserThreads` represented as objects that are valid selections for this input.
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=all` route, just combined into one array):
 
-    ```json
+    ```js
     [
         {
             userthread_id: 11,
@@ -58,7 +58,7 @@ Example value (note that this is formatted like data returned from the `/api/use
 - **`data`**: an array of `ThreadColors` or `UserThreads` represented as objects that are valid selections for this input.
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=all` route, just combined into one array): 
 
-    ```json
+    ```js
     [
         {
             userthread_id: 11,
@@ -98,7 +98,7 @@ Example value (note that this is formatted like data returned from the `/api/use
 - **`threadColor`**: An object containing data about this thread. 
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=true` route):
 
-    ```json
+    ```js
     {
         userthread_id: 11,
         skeins_owned: "3.00",
@@ -135,7 +135,7 @@ Example value: `50%`
 - **`threadColors`**: an array of objects containing data about every thread to add to this list. 
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=true` route):
 
-    ```json
+    ```js
     {
         userthread_id: 11,
         skeins_owned: "3.00",
