@@ -12,7 +12,7 @@
 
 > **Description:** Provides inputs for thread name and skeins owned, performing a specified action on submit (e.g. posting to the server or updating the screen)
 >
-> **See also:** [`<ThreadAutofillInput />`](#pushpin-threadautofillinput)
+> **See also:** [`<ThreadAutofillInput />`](#pushpin-threadautofillinput-)
 
 ### props
 
@@ -51,7 +51,7 @@ Example value (note that this is formatted like data returned from the `/api/use
 
 > **Description:** Autofills and validates an input field for floss colors based on name, brand, etc. Used in the `<QuickAdd />` component.
 >
-> **See also:** [`<QuickAdd />`](#pushpin-quickadd)
+> **See also:** [`<QuickAdd />`](#pushpin-quickadd-)
 
 ### props
 
@@ -91,7 +91,7 @@ Example value (note that this is formatted like data returned from the `/api/use
 
 > **Description:** Displays a `ThreadColor` / quantity pairing with a swatch of the color.
 >
-> **See also:** [`<ThreadCardList />`](#pushpin-threadcardlist)
+> **See also:** [`<ThreadCardList />`](#pushpin-threadcardlist-)
 
 ### props
 
@@ -117,7 +117,7 @@ Example value (note that this is formatted like data returned from the `/api/use
 
 > **Description:** A placeholder for a normal `<ThreadCard />` when the data to populate it with is not fully loaded.
 >
-> **See also:** [`<ThreadCard />`](#pushpin-threadcard)
+> **See also:** [`<ThreadCard />`](#pushpin-threadcard-)
 
 ### props
 
@@ -128,7 +128,7 @@ Example value: `50%`
 
 > **Description:** Displays a list of `<ThreadCard />` components.
 >
-> **See also:** [`<ThreadCard />`](#pushpin-threadcard)
+> **See also:** [`<ThreadCard />`](#pushpin-threadcard-)
 
 ### props
 
