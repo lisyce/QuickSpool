@@ -26,8 +26,9 @@ function ThreadAutofillInput(props) {
     $('#swatch').html('<i class=\'bi-x-lg\'></i>');
   } else {
     $('#swatch').html('&nbsp;');
+    $('#swatch').removeClass('invalid-border');
+
     if (selectedThread != null) {
-      $('#swatch').removeClass('invalid-border');
       $('#swatch').css('background-color', `#${selectedThread.hex_value}`);
     }
   }
@@ -46,7 +47,7 @@ function ThreadAutofillInput(props) {
           setValid(true);
         } catch (error) {
           setSelectedThread(null);
-          setValid(false);
+          setValid(searchTerms ? false : true);  // allow empty fields to be "valid". the form won't submit empty anyway
         }
       }}></input>
 

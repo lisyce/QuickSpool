@@ -39,6 +39,7 @@ function Collection (props) {
     setAllColors(unownedColors.concat(ownedColors));
   }, [ownedColors, unownedColors])
 
+  // show placeholder thread cards if not yet loaded
   let threadCardList;
   if (isLoaded) {
     threadCardList = <ThreadCardList threadColors={ownedColors} />;

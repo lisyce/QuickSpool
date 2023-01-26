@@ -101,13 +101,12 @@ function QuickAdd(props) {
           <input id='skeins-number' type='text' name='skeins' className={skeinsNumClasses}
           required autocomplete='off' placeholder='1.5' value={skeinText} onChange={(event) => {
             const text = event.target.value;
-
             setSkeinText(text);
 
             const err = skeinNumToErrMsg(text);
             setSkeinErrText(err);
     
-            if (err !== '') {
+            if (err && text) { // allow empty fields to be "valid". the form won't submit empty anyway
               setSkeinsValid(false);
             } else {
               setSkeinsValid(true);
