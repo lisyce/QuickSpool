@@ -94,8 +94,6 @@ Get all `UserThreads` in the database.
 
 **Content Example**
 
-The `owner` key corresponds to the `id` of the `User` who owns this `UserThread`.
-
 ```json
 [
     {
