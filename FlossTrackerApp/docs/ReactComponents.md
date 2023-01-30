@@ -17,6 +17,7 @@
 ### props
 
 - **`userId`**: the `id` for the currently signed-in user
+- **`id`**: a unique id to represent this `<ThreadAutofillInput />` on the page. If within a `<QuickAdd />`, will have the same id as that `<QuickAdd />`
 - **`allColors`**: an array of `ThreadColors` or `UserThreads` represented as objects that are valid selections for this input.
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=all` route, just combined into one array):
 
@@ -55,6 +56,7 @@ Example value (note that this is formatted like data returned from the `/api/use
 
 ### props
 
+- **`id`**: a unique id to represent this `<QuickAdd />` on the page
 - **`data`**: an array of `ThreadColors` or `UserThreads` represented as objects that are valid selections for this input.
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=all` route, just combined into one array): 
 

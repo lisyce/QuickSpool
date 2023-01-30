@@ -13,8 +13,7 @@ function QuickAdd(props) {
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
 
-
-  $('#skeins-number').removeAttr('aria-describedby');
+  $('#skeins-number' + props.id).removeAttr('aria-describedby');
 
   let skeinsNumClasses = 'form-control';
   let feedback = null;
@@ -22,7 +21,7 @@ function QuickAdd(props) {
   if (!skeinsValid) {
     skeinsNumClasses += ' is-invalid';
     feedback = <div id='invalid-skeins' className='invalid-feedback'>{skeinErrText}</div>
-    $('#skeins-number').attr('aria-describedby', 'invalid-skeins');
+    $('#skeins-number' + props.id).attr('aria-describedby', 'invalid-skeins');
   }
 
   return <>
@@ -88,17 +87,17 @@ function QuickAdd(props) {
 
       // reset the form text on submit
       setSkeinText('');
-      $('#search').val('');
+      $('#search' + props.id).val('');
     }}>
       <div className='row g-1 align-items-start'>
         <div className='col-12'>
-          <label for='search' className='form-label'>Thread Color</label>
-          <ThreadAutofillInput data={props.allColors} />
+          <label for={'search' + props.id} className='form-label'>Thread Color</label>
+          <ThreadAutofillInput data={props.allColors} id={props.id} />
         </div>
 
         <div className='col-12 col-sm-9 mt-2'>
-          <label for='skeins-number' className='form-label'># Skeins</label>
-          <input id='skeins-number' type='text' name='skeins' className={skeinsNumClasses}
+          <label for={'skeins-number' + props.id} className='form-label'># Skeins</label>
+          <input id={'skeins-number' + props.id} type='text' name='skeins' className={skeinsNumClasses}
           required autocomplete='off' placeholder='1.5' value={skeinText} onChange={(event) => {
             const text = event.target.value;
             setSkeinText(text);
@@ -116,8 +115,8 @@ function QuickAdd(props) {
         </div>
 
         <div className='col-12 col-sm-3'>
-          <label id='spacer-label' for='addBtn' className='form-label' aria-hidden='true'>&nbsp;</label>
-          <button id='addBtn' type='submit' className='btn btn-outline-secondary mt-1' style={{width: "100%"}}>Add</button>
+          <label id={'spacer-label' + props.id} for={'addBtn' + props.id} className='form-label' aria-hidden='true'>&nbsp;</label>
+          <button id={'addBtn' + props.id} type='submit' className='btn btn-outline-secondary mt-1' style={{width: "100%"}}>Add</button>
         </div>
       </div>
 

@@ -71,7 +71,7 @@ function Collection (props) {
 
                 <div style={{display: isLoaded ? 'block' : 'none'}}>
                   <h3>Quick Add</h3>
-                  <QuickAdd userId={props.userId} allColors={allColors} />
+                  <QuickAdd userId={props.userId} allColors={allColors} id='main' />
                 </div>
 
               </div>
