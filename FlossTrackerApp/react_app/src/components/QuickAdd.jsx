@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import $ from 'jquery';
 import ThreadAutofillInput from './ThreadAutofillInput';
 
@@ -48,7 +48,7 @@ function postOnSubmit(event, userId, thread, allColors) {
   }
 }
 
-function QuickAdd( {id, userId, allColors, onAdd=postOnSubmit} ) {
+function QuickAdd({ id, userId, allColors, onAdd=postOnSubmit }) {
 
   // state
   const [skeinText, setSkeinText] = useState('');
@@ -124,7 +124,7 @@ function QuickAdd( {id, userId, allColors, onAdd=postOnSubmit} ) {
         </div>
 
         <div className='col-12 col-sm-3'>
-          <label id={'spacer-label' + id} for={'addBtn' + id} className='form-label' aria-hidden='true'>&nbsp;</label>
+          <label id={'spacer-label' + id} className='form-label' aria-hidden='true'>&nbsp;</label>
           <button id={'addBtn' + id} type='submit' className='btn btn-outline-secondary mt-1' style={{width: "100%"}}>Add</button>
         </div>
       </div>

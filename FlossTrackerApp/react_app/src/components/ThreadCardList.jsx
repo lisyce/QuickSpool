@@ -15,7 +15,7 @@ function ThreadCardList(props) {
   });
 
   const threadCards = allThreads.map((thread) =>
-    <ThreadCard threadColor={thread} />
+    <ThreadCard threadColor={thread} useModal={props.useModal} />
   );
 
   return <div className='list-group list-group-flush'>{threadCards}</div>;

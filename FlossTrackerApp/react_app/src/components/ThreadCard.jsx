@@ -12,12 +12,22 @@ function ThreadCard(props) {
     backgroundColor: '#' + swatchHex
   };
 
-  const [modalFormSkeins, setModalFormSkeins] = useState(props.threadColor.skeins_owned);
+  const displayName = props.threadColor.brand.name + ' ' + props.threadColor.brand_number + ': ' + props.threadColor.name;
+
+  // allows us to choose to wrap it with an anchor tag or not
+  let content = <>
+    <h5 className='threadcard-header threadcard-header-responsive my-auto'>{displayName}</h5>
+    <span className='position-relative swatch my-auto me-3' style={swatchStyle}>&nbsp;
+      <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.threadColor.skeins_owned}</span>
+    </span>
+  </>
+
   const [deleted, setDeleted] = useState(false);
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
+  const [modalFormSkeins, setModalFormSkeins] = useState(props.threadColor.skeins_owned);
 
-  const displayName = props.threadColor.brand.name + ' ' + props.threadColor.brand_number + ': ' + props.threadColor.name;
+  let modal;
   const modalID = props.threadColor.brand.name + '-' + props.threadColor.brand_number;
 
   // reset the text field in the modal when it closes with an event listener
@@ -25,34 +35,29 @@ function ThreadCard(props) {
     const id = 'detail-thread-view-' + modalID;
 
     const modal = document.getElementById(id);
-    modal.addEventListener('hidden.bs.modal', event => {
-      setModalFormSkeins(props.threadColor.skeins_owned);
-      setSkeinsValid(true);
-    });
-
+    if (modal) {
+      modal.addEventListener('hidden.bs.modal', event => {
+        setModalFormSkeins(props.threadColor.skeins_owned);
+        setSkeinsValid(true);
+      });
+    }
   }, []);
 
+  if (props.useModal) {
+
+    // validation-based styling
+    $(`#floating-input-${modalID}`).removeAttr('aria-describedby');
+
+    let skeinsNumClasses = 'form-control';
+    let feedback = null;
   
-  $(`#floating-input-${modalID}`).removeAttr('aria-describedby');
+    if (!skeinsValid) {
+      skeinsNumClasses += ' is-invalid';
+      feedback = <div id='invalid-skeins' className='invalid-feedback'>{skeinErrText}</div>
+      $(`#floating-input-${modalID}`).attr('aria-describedby', 'invalid-skeins');
+    }
 
-  let skeinsNumClasses = 'form-control';
-  let feedback = null;
-
-  if (!skeinsValid) {
-    skeinsNumClasses += ' is-invalid';
-    feedback = <div id='invalid-skeins' className='invalid-feedback'>{skeinErrText}</div>
-    $(`#floating-input-${modalID}`).attr('aria-describedby', 'invalid-skeins');
-  }
-
-  return (
-    <>
-    <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
-      <h5 className='threadcard-header threadcard-header-responsive my-auto'>{displayName}</h5>
-      <span className='position-relative swatch my-auto me-3' style={swatchStyle}>&nbsp;
-        <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.threadColor.skeins_owned}</span>
-      </span>
-    </a>
-
+    modal = <>
     <div className='modal fade' id={'detail-thread-view-' + modalID} tabIndex='-1' aria-labelledby='detail-thread-view' aria-hidden='true'>
       <div className='modal-dialog modal-lg'>
         <div className='modal-content'>
@@ -160,6 +165,26 @@ function ThreadCard(props) {
         </div>
       </div>
     </div>
+    </>
+
+    content = <>
+      <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
+        {content}
+      </a>
+    </>
+    
+  } else {
+    content = <>
+      <div className='list-group-item d-flex justify-content-between'>
+        {content}
+      </div>
+    </>
+  }
+
+  return (
+    <>
+    {content}
+    {modal}
     </>
   );
 }

@@ -25,7 +25,7 @@ function skeinNumToErrMsg(skeins) {
   if (isNaN(skeins)) {
     return 'Please enter a valid # of skeins.';
   } else if (skeins < 0.01) {
-    return '# skeins must be greater than 0.01.';
+    return '# skeins must be at least 0.01.';
   } else if (skeins >= 1000) {
     return '# skeins must be less than 1,000.';
   } else {

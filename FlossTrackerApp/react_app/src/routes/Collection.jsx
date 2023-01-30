@@ -42,19 +42,14 @@ function Collection (props) {
   // show placeholder thread cards if not yet loaded
   let threadCardList;
   if (isLoaded) {
-    threadCardList = <ThreadCardList threadColors={ownedColors} />;
+    threadCardList = <ThreadCardList threadColors={ownedColors} useModal={true} />;
+
   } else {
     threadCardList = <>
       <LoadingThreadCard headingWidth='40%'/>
       <LoadingThreadCard headingWidth='60%'/>
       <LoadingThreadCard headingWidth='50%'/>
     </>
-  }
-
-  function alertThread(event) {
-    alert(event.target.skeins.value);
-    event.preventDefault();
-    return false;
   }
 
   return ( 
@@ -65,7 +60,7 @@ function Collection (props) {
         <div className='container-fluid px-5'>
           <div className='row'>
             <div className='col-12 col-lg-4 mb-3'>
-              <QuickAdd userId={props.userId} allColors={allColors} id='test' onAdd={alertThread} />
+
             </div>
 
             <div className='col-12 col-lg-4 mb-3'>
