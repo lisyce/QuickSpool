@@ -51,6 +51,12 @@ function Collection (props) {
     </>
   }
 
+  function alertThread(event) {
+    alert(event.target.skeins.value);
+    event.preventDefault();
+    return false;
+  }
+
   return ( 
     <>
       <Navbar />
@@ -59,7 +65,7 @@ function Collection (props) {
         <div className='container-fluid px-5'>
           <div className='row'>
             <div className='col-12 col-lg-4 mb-3'>
-
+              <QuickAdd userId={props.userId} allColors={allColors} id='test' onAdd={alertThread} />
             </div>
 
             <div className='col-12 col-lg-4 mb-3'>

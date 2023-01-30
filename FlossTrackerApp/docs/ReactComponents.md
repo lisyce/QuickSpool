@@ -18,6 +18,7 @@
 
 - **`userId`**: the `id` for the currently signed-in user
 - **`id`**: a unique id to represent this `<ThreadAutofillInput />` on the page. If within a `<QuickAdd />`, will have the same id as that `<QuickAdd />`
+- **`onAdd`**: a function defining what should happen upon form submission of this `<QuickAdd />`. Must accept an `event` parameter to take in the submission event. Defaults to posting to the backend to add the thread directly to the user's collection.
 - **`allColors`**: an array of `ThreadColors` or `UserThreads` represented as objects that are valid selections for this input.
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=all` route, just combined into one array):
 
