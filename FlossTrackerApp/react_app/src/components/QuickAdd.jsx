@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import $ from 'jquery';
 import ThreadAutofillInput from './ThreadAutofillInput';
 
@@ -50,6 +50,14 @@ function postOnSubmit(event, userId, thread, allColors) {
 
 function QuickAdd({ id, userId, allColors, onAdd=postOnSubmit }) {
 
+  const searchRef = useRef(null);
+  const swatchRef = useRef(null);
+
+  const ref = {
+    searchRef: searchRef,
+    swatchRef: swatchRef
+  };
+
   // state
   const [skeinText, setSkeinText] = useState('');
   const [skeinsValid, setSkeinsValid] = useState(true);
@@ -93,15 +101,15 @@ function QuickAdd({ id, userId, allColors, onAdd=postOnSubmit }) {
         onAdd(event);
       }
 
-      // reset the form on submit
+      // reset the form
       setSkeinText('');
-      $('#search' + id).val('');
-      $('#search' + id).trigger('change');
+      searchRef.current.value = '';
+      searchRef.current.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
     }}>
       <div className='row g-1 align-items-start'>
         <div className='col-12'>
           <label for={'search' + id} className='form-label'>Thread Color</label>
-          <ThreadAutofillInput data={allColors} id={id} />
+          <ThreadAutofillInput data={allColors} id={id} ref={searchRef} />
         </div>
 
         <div className='col-12 col-sm-9 mt-2'>

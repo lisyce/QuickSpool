@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import $ from 'jquery';
 import { searchThreads } from '../utils/search';
 import { autofilledThreadToObj } from '../utils/validators';
 
 import './thread-autofill-input.css';
 
-function ThreadAutofillInput(props) {
+// forwardref lets quickadd get to the search bar and such
+const ThreadAutofillInput = forwardRef((props, ref) => {
 
   $('#search' + props.id).removeAttr('aria-describedby');
 
@@ -30,13 +31,15 @@ function ThreadAutofillInput(props) {
 
     if (selectedThread != null) {
       $('#swatch' + props.id).css('background-color', `#${selectedThread.hex_value}`);
+    } else {
+      $('#swatch' + props.id).css('background-color', 'white')
     }
   }
 
   return <>
     <div className='input-group'>
-      <input id={'search' + props.id} name='thread' type='text' list={'datalist' + props.id} autocomplete='off' className={classes} placeholder='DMC 310: Black' required onChange={(event) => {
-
+      <input id={'search' + props.id} ref={ref} name='thread' type='text' list={'datalist' + props.id} autocomplete='off' className={classes} placeholder='DMC 310: Black' required onInput={(event) => {
+        console.log('change');
         const searchTerms = event.target.value;
         const availableThreads = searchThreads(searchTerms, props.data);
         setSearchSuggestions(availableThreads);
@@ -60,6 +63,6 @@ function ThreadAutofillInput(props) {
     {searchSuggestions.map((option) => <option value={`${option.brand.name} ${option.brand_number}: ${option.name}`}></option>)}
   </datalist>
   </>
-}
+});
 
 export default ThreadAutofillInput;
