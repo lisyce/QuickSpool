@@ -6,19 +6,19 @@ import { makeValidSkeinsOwned, skeinNumToErrMsg } from '../utils/validators'
 
 import './thread-card.css';
 
-function ThreadCard(props) {
-  const swatchHex = props.threadColor.hex_value;
+function ThreadCard({ threadColor, useModal=true }) {
+  const swatchHex = threadColor.hex_value;
   const swatchStyle = {
     backgroundColor: '#' + swatchHex
   };
 
-  const displayName = props.threadColor.brand.name + ' ' + props.threadColor.brand_number + ': ' + props.threadColor.name;
+  const displayName = threadColor.brand.name + ' ' + threadColor.brand_number + ': ' + threadColor.name;
 
   // allows us to choose to wrap it with an anchor tag or not
   let content = <>
     <h5 className='threadcard-header threadcard-header-responsive my-auto'>{displayName}</h5>
     <span className='position-relative swatch my-auto me-3' style={swatchStyle}>&nbsp;
-      <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{props.threadColor.skeins_owned}</span>
+      <span className='position-absolute top-0 start-100 translate-middle text-bg-light badge'>{threadColor.skeins_owned}</span>
     </span>
   </>
 
@@ -27,7 +27,7 @@ function ThreadCard(props) {
   const [deleted, setDeleted] = useState(false);
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
-  const [modalFormSkeins, setModalFormSkeins] = useState(props.threadColor.skeins_owned);
+  const [modalFormSkeins, setModalFormSkeins] = useState(threadColor.skeins_owned);
 
   const id = useId();
   const floatingInputRef = useRef(null);
@@ -37,7 +37,7 @@ function ThreadCard(props) {
   useEffect(() => {
     if (modalRef.current) {
       modalRef.current.addEventListener('hidden.bs.modal', event => {
-        setModalFormSkeins(props.threadColor.skeins_owned);
+        setModalFormSkeins(threadColor.skeins_owned);
         setSkeinsValid(true);
       });
     }
@@ -47,7 +47,7 @@ function ThreadCard(props) {
   let skeinsNumClasses = 'form-control';
   let feedback;
 
-  if (props.useModal) {
+  if (useModal) {
 
     // validation-based styling
     if (floatingInputRef.current) { // will be null first render
@@ -97,7 +97,7 @@ function ThreadCard(props) {
                       const csrfToken = getCsrfCookie();
 
                       $.ajax({
-                        url: '/api/user-threads/' + props.threadColor.userthread_id,
+                        url: '/api/user-threads/' + threadColor.userthread_id,
                         type: 'PATCH',
                         headers: {
                           'Content-type': 'application/json',
@@ -137,7 +137,7 @@ function ThreadCard(props) {
                             const csrfToken = getCsrfCookie();
 
                             $.ajax({
-                              url: '/api/user-threads/' + props.threadColor.userthread_id,
+                              url: '/api/user-threads/' + threadColor.userthread_id,
                               type: 'DELETE',
                               headers: {
                                 'Content-type': 'application/json',

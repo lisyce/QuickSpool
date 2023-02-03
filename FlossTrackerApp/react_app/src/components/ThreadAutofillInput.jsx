@@ -5,7 +5,7 @@ import { autofilledThreadToObj } from '../utils/validators';
 import './thread-autofill-input.css';
 
 // forwardref lets quickadd get to the search bar and such
-const ThreadAutofillInput = forwardRef((props, ref) => {
+const ThreadAutofillInput = forwardRef(({ id, data }, ref) => {
 
   const swatchRef = useRef(null);
 
@@ -22,8 +22,8 @@ const ThreadAutofillInput = forwardRef((props, ref) => {
 
     if (!valid) {
       classes += ' is-invalid';
-      feedback = <div id={'invalid-thread' + props.id} className='invalid-feedback'>Please select an option from the list.</div>
-      swatchRef.current.setAttribute('aria-describedby', 'invalid-thread' + props.id);
+      feedback = <div id={'invalid-thread' + id} className='invalid-feedback'>Please select an option from the list.</div>
+      swatchRef.current.setAttribute('aria-describedby', 'invalid-thread' + id);
 
       swatchRef.current.style.backgroundColor = 'white';
       swatchRef.current.classList.add('invalid-border');
@@ -44,13 +44,13 @@ const ThreadAutofillInput = forwardRef((props, ref) => {
 
   return <>
     <div className='input-group'>
-      <input ref={ref} name='thread' type='text' list={'datalist' + props.id} autocomplete='off' className={classes} placeholder='DMC 310: Black' required onInput={(event) => {
+      <input ref={ref} name='thread' type='text' list={'datalist' + id} autocomplete='off' className={classes} placeholder='DMC 310: Black' required onInput={(event) => {
         const searchTerms = event.target.value;
-        const availableThreads = searchThreads(searchTerms, props.data);
+        const availableThreads = searchThreads(searchTerms, data);
         setSearchSuggestions(availableThreads);
 
         try {
-          let thread = autofilledThreadToObj(searchTerms, props.data);
+          let thread = autofilledThreadToObj(searchTerms, data);
           setSelectedThread(thread);
           setValid(true);
         } catch (error) {
@@ -59,12 +59,12 @@ const ThreadAutofillInput = forwardRef((props, ref) => {
         }
       }}></input>
 
-      <span className='input-group-text d-flex justify-content-center input-group-swatch' id={'swatch' + props.id} ref={swatchRef}></span>
+      <span className='input-group-text d-flex justify-content-center input-group-swatch' id={'swatch' + id} ref={swatchRef}></span>
     </div>
 
     {feedback}
 
-  <datalist id={'datalist' + props.id}>
+  <datalist id={'datalist' + id}>
     {searchSuggestions.map((option) => <option value={`${option.brand.name} ${option.brand_number}: ${option.name}`}></option>)}
   </datalist>
   </>

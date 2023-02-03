@@ -96,7 +96,7 @@ Example value (note that this is formatted like data returned from the `/api/use
 
 ### props
 
-- **`useModal`**: Whether or not this `<ThreadCard />` should have a popup modal to allow for editing and deleting the thread. Should be `true` or `false`.
+- **`useModal`**: Whether or not this `<ThreadCard />` should have a popup modal to allow for editing and deleting the thread. Should be `true` or `false`, defaults to `true`.
 - **`threadColor`**: An object containing data about this thread. 
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=true` route):
 
@@ -134,7 +134,7 @@ Example value: `50%`
 
 ### props
 
-- **`useModal`**: Whether or not the `<ThreadCard />`s in this list should have a popup modal to allow for editing and deleting the thread. Should be `true` or `false`.
+- **`useModal`**: Whether or not the `<ThreadCard />`s in this list should have a popup modal to allow for editing and deleting the thread. Should be `true` or `false`, defaults to `true`.
 - **`threadColors`**: an array of objects containing data about every thread to add to this list. 
 Example value (note that this is formatted like data returned from the `/api/users/:pk/collection?owned=true` route):
 

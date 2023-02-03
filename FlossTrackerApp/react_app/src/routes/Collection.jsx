@@ -42,7 +42,7 @@ function Collection (props) {
   // show placeholder thread cards if not yet loaded
   let threadCardList;
   if (isLoaded) {
-    threadCardList = <ThreadCardList threadColors={ownedColors} useModal={true} />;
+    threadCardList = <ThreadCardList threadColors={ownedColors} />;
 
   } else {
     threadCardList = <>
