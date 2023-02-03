@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useId, useRef } from 'react';
 import $ from 'jquery';
 
 import { getCsrfCookie } from '../utils/csrf-cookie'
@@ -22,48 +22,51 @@ function ThreadCard(props) {
     </span>
   </>
 
+  let modal;
+
   const [deleted, setDeleted] = useState(false);
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
   const [modalFormSkeins, setModalFormSkeins] = useState(props.threadColor.skeins_owned);
 
-  let modal;
-  const modalID = props.threadColor.brand.name + '-' + props.threadColor.brand_number;
+  const id = useId();
+  const floatingInputRef = useRef(null);
+  const modalRef = useRef(null);
 
   // reset the text field in the modal when it closes with an event listener
   useEffect(() => {
-    const id = 'detail-thread-view-' + modalID;
-
-    const modal = document.getElementById(id);
-    if (modal) {
-      modal.addEventListener('hidden.bs.modal', event => {
+    if (modalRef.current) {
+      modalRef.current.addEventListener('hidden.bs.modal', event => {
         setModalFormSkeins(props.threadColor.skeins_owned);
         setSkeinsValid(true);
       });
     }
   }, []);
 
+
+  let skeinsNumClasses = 'form-control';
+  let feedback;
+
   if (props.useModal) {
 
     // validation-based styling
-    $(`#floating-input-${modalID}`).removeAttr('aria-describedby');
-
-    let skeinsNumClasses = 'form-control';
-    let feedback = null;
-  
-    if (!skeinsValid) {
-      skeinsNumClasses += ' is-invalid';
-      feedback = <div id='invalid-skeins' className='invalid-feedback'>{skeinErrText}</div>
-      $(`#floating-input-${modalID}`).attr('aria-describedby', 'invalid-skeins');
+    if (floatingInputRef.current) { // will be null first render
+      floatingInputRef.current.removeAttribute('aria-describedby');      
+    
+      if (!skeinsValid) {
+        skeinsNumClasses += ' is-invalid';
+        feedback = <div id={`invalid-skeins${id}`} className='invalid-feedback'>{skeinErrText}</div>
+        floatingInputRef.current.setAttribute('aria-describedby', `invalid-skeins${id}`);
+      }
     }
 
     modal = <>
-    <div className='modal fade' id={'detail-thread-view-' + modalID} tabIndex='-1' aria-labelledby='detail-thread-view' aria-hidden='true'>
+    <div className='modal fade' id={`detail-thread-view${id}`} ref={modalRef} tabIndex='-1' aria-labelledby={`modal-title${id}`} aria-hidden='true'>
       <div className='modal-dialog modal-lg'>
         <div className='modal-content'>
 
           <div className='modal-header'>
-            <h1 className='modal-title fs-5'>{displayName}</h1>
+            <h1 id={`modal-title${id}`} className='modal-title fs-5'>{displayName}</h1>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
@@ -115,19 +118,19 @@ function ThreadCard(props) {
                         <div className='col-10 d-flex'>
                           <div className='input-group my-2'>
                             <div className='form-floating'>
-                              <input type='text' name='skeins' id={'floating-input-' + modalID} className={skeinsNumClasses} placeholder='1.00' value={modalFormSkeins} onChange={(event) => {
+                              <input type='text' name='skeins' id={'floating-input' + id} ref={floatingInputRef} className={skeinsNumClasses} placeholder='1.00' value={modalFormSkeins} onChange={(event) => {
                                 setModalFormSkeins(event.target.value);
                               }}>
                               </input>
                             
-                              <label for={'floating-input-' + modalID}>Skeins Owned</label>
+                              <label for={'floating-input' + id}>Skeins Owned</label>
                             </div>
                             <button type='submit' className='btn btn-outline-secondary'>Update</button>
                           </div>
                         </div>
 
                         <div className='col-2 d-flex justify-content-end'>
-                          <button className='d-flex justify-content-center align-items-center my-2 btn btn-outline-danger' aria-label={'Delete ' + modalID} onClick={() => {
+                          <button className='d-flex justify-content-center align-items-center my-2 btn btn-outline-danger' aria-label={'Delete ' + id} onClick={() => {
                           
                             setDeleted(true);
 
@@ -168,7 +171,7 @@ function ThreadCard(props) {
     </>
 
     content = <>
-      <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view-' + modalID} className='list-group-item list-group-item-action d-flex justify-content-between'>
+      <a href='#' data-bs-toggle='modal' data-bs-target={'#detail-thread-view' + CSS.escape(id)} className='list-group-item list-group-item-action d-flex justify-content-between'>
         {content}
       </a>
     </>

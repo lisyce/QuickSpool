@@ -60,7 +60,7 @@ function Collection (props) {
         <div className='container-fluid px-5'>
           <div className='row'>
             <div className='col-12 col-lg-4 mb-3'>
-
+              
             </div>
 
             <div className='col-12 col-lg-4 mb-3'>
@@ -72,7 +72,7 @@ function Collection (props) {
 
                 <div style={{display: isLoaded ? 'block' : 'none'}}>
                   <h3>Quick Add</h3>
-                  <QuickAdd userId={props.userId} allColors={allColors} id='main' />
+                  <QuickAdd userId={props.userId} allColors={allColors} />
                 </div>
 
               </div>
@@ -86,4 +86,3 @@ function Collection (props) {
 }
 
 export default Collection;
-

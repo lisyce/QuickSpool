@@ -1,5 +1,4 @@
-import React, { useState, forwardRef } from 'react';
-import $ from 'jquery';
+import React, { useState, forwardRef, useRef } from 'react';
 import { searchThreads } from '../utils/search';
 import { autofilledThreadToObj } from '../utils/validators';
 
@@ -8,7 +7,7 @@ import './thread-autofill-input.css';
 // forwardref lets quickadd get to the search bar and such
 const ThreadAutofillInput = forwardRef((props, ref) => {
 
-  $('#search' + props.id).removeAttr('aria-describedby');
+  const swatchRef = useRef(null);
 
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const[selectedThread, setSelectedThread] = useState(null);
@@ -17,29 +16,35 @@ const ThreadAutofillInput = forwardRef((props, ref) => {
   let classes = 'form-control';
   let feedback = null;
 
-  if (!valid) {
-    classes += ' is-invalid';
-    feedback = <div id={'invalid-thread' + props.id} className='invalid-feedback'>Please select an option from the list.</div>
-    $('#search' + props.id).attr('aria-describedby', 'invalid-thread' + props.id);
+  // first render will have null for this ref but that doesn't break any functionality
+  if (swatchRef.current != null) {
+    swatchRef.current.removeAttribute('aria-describedby');
 
-    $('#swatch' + props.id).css('background-color', 'white');
-    $('#swatch' + props.id).addClass('invalid-border');
-    $('#swatch' + props.id).html('<i class=\'bi-x-lg\'></i>');
-  } else {
-    $('#swatch' + props.id).html('&nbsp;');
-    $('#swatch' + props.id).removeClass('invalid-border');
+    if (!valid) {
+      classes += ' is-invalid';
+      feedback = <div id={'invalid-thread' + props.id} className='invalid-feedback'>Please select an option from the list.</div>
+      swatchRef.current.setAttribute('aria-describedby', 'invalid-thread' + props.id);
 
-    if (selectedThread != null) {
-      $('#swatch' + props.id).css('background-color', `#${selectedThread.hex_value}`);
+      swatchRef.current.style.backgroundColor = 'white';
+      swatchRef.current.classList.add('invalid-border');
+      swatchRef.current.innerHTML = '<i class=\'bi-x-lg\'></i>';
+
     } else {
-      $('#swatch' + props.id).css('background-color', 'white')
-    }
+      swatchRef.current.innerHTML = '&nbsp;';
+      swatchRef.current.classList.remove('invalid-border');
+
+      if (selectedThread) {
+        swatchRef.current.style.backgroundColor = `#${selectedThread.hex_value}`;
+      } else {
+        swatchRef.current.style.backgroundColor = 'white';
+      }
+    } 
   }
+  
 
   return <>
     <div className='input-group'>
-      <input id={'search' + props.id} ref={ref} name='thread' type='text' list={'datalist' + props.id} autocomplete='off' className={classes} placeholder='DMC 310: Black' required onInput={(event) => {
-        console.log('change');
+      <input ref={ref} name='thread' type='text' list={'datalist' + props.id} autocomplete='off' className={classes} placeholder='DMC 310: Black' required onInput={(event) => {
         const searchTerms = event.target.value;
         const availableThreads = searchThreads(searchTerms, props.data);
         setSearchSuggestions(availableThreads);
@@ -54,7 +59,7 @@ const ThreadAutofillInput = forwardRef((props, ref) => {
         }
       }}></input>
 
-      <span className='input-group-text d-flex justify-content-center input-group-swatch' id={'swatch' + props.id}></span>
+      <span className='input-group-text d-flex justify-content-center input-group-swatch' id={'swatch' + props.id} ref={swatchRef}></span>
     </div>
 
     {feedback}

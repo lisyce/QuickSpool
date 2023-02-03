@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useId } from 'react';
 import $ from 'jquery';
 import ThreadAutofillInput from './ThreadAutofillInput';
 
@@ -11,7 +11,7 @@ function postOnSubmit(event, userId, thread, allColors) {
   const csrfToken = getCsrfCookie();
 
   // determine which route to send to
-  if (allColors.find(a => a.id === thread.id && !a.hasOwnProperty('userthread_id')) != null) {
+  if (allColors.find(a => a.id === thread.id && !a.hasOwnProperty('userthread_id'))) {
     $.ajax({
       url: '/api/user-threads/',
       type: 'POST',
@@ -48,30 +48,31 @@ function postOnSubmit(event, userId, thread, allColors) {
   }
 }
 
-function QuickAdd({ id, userId, allColors, onAdd=postOnSubmit }) {
+function QuickAdd({ userId, allColors, onAdd=postOnSubmit }) {
+
+  const id = useId();
 
   const searchRef = useRef(null);
-  const swatchRef = useRef(null);
-
-  const ref = {
-    searchRef: searchRef,
-    swatchRef: swatchRef
-  };
+  const skeinsRef = useRef(null);
 
   // state
   const [skeinText, setSkeinText] = useState('');
   const [skeinsValid, setSkeinsValid] = useState(true);
   const [skeinErrText, setSkeinErrText] = useState('');
 
-  $('#skeins-number' + id).removeAttr('aria-describedby');
 
   let skeinsNumClasses = 'form-control';
   let feedback = null;
 
-  if (!skeinsValid) {
-    skeinsNumClasses += ' is-invalid';
-    feedback = <div id='invalid-skeins' className='invalid-feedback'>{skeinErrText}</div>
-    $('#skeins-number' + id).attr('aria-describedby', 'invalid-skeins');
+  if (skeinsRef.current != null) {
+
+    skeinsRef.current.removeAttribute('aria-describedby');
+
+    if (!skeinsValid) {
+      skeinsNumClasses += ' is-invalid';
+      feedback = <div id={'invalid-skeins' + id} className='invalid-feedback'>{skeinErrText}</div>
+      skeinsRef.current.setAttribute('aria-describedby', 'invalid-skeins' + id)
+    }
   }
 
   return <>
@@ -97,6 +98,7 @@ function QuickAdd({ id, userId, allColors, onAdd=postOnSubmit }) {
 
       if (onAdd == postOnSubmit) {
         postOnSubmit(event, userId, thread, allColors);
+        return true;
       } else {
         onAdd(event);
       }
@@ -114,7 +116,7 @@ function QuickAdd({ id, userId, allColors, onAdd=postOnSubmit }) {
 
         <div className='col-12 col-sm-9 mt-2'>
           <label for={'skeins-number' + id} className='form-label'># Skeins</label>
-          <input id={'skeins-number' + id} type='text' name='skeins' className={skeinsNumClasses}
+          <input id={'skeins-number' + id} ref={skeinsRef} type='text' name='skeins' className={skeinsNumClasses}
           required autocomplete='off' placeholder='1.5' value={skeinText} onChange={(event) => {
             const text = event.target.value;
             setSkeinText(text);
